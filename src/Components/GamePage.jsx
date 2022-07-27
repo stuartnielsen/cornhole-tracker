@@ -1,9 +1,10 @@
 import { Button, Card, Grid, TextField } from '@mui/material'
-import { useEffect } from 'react'
 import { useState } from 'react'
-import './App.css'
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft'
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
+import PlayerStats from './PlayerStats'
+import CenterStatCard from './CenterStatCard'
+import { useEffect } from 'react'
 
 const DEFAULT_TEAM = {
   teamName: 'Team Name',
@@ -13,15 +14,26 @@ const DEFAULT_TEAM = {
   bag1: '',
   bag2: '',
   bag3: '',
-  bag4: ''
+  bag4: '',
+  totalPoints: 0,
+  pprAvg: 0,
+  fourBaggers: 0,
+  slide: 0,
+  airmail: 0,
+  roll: 0,
+  block: 0,
+  push: 0,
+  woody: 0,
+  bully: 0,
+  foul: 0
 }
 
-export default function App() {
+export default function GamePage() {
   const [teamOne, setTeamOne] = useState(DEFAULT_TEAM)
   const [teamTwo, setTeamTwo] = useState(DEFAULT_TEAM)
   const [teamOneHistory, setTeamOneHistory] = useState([])
   const [teamTwoHistory, setTeamTwoHistory] = useState([])
-  const [roundNumber, setRoundNumber] = useState(1)
+  const [roundNumber, setRoundNumber] = useState(0)
   const [bagDescription, setBagDescription] = useState()
   const [startingTeamOne, setStartingTeamOne] = useState(true)
   const [isGameOver, setIsGameOver] = useState(false)
@@ -31,16 +43,27 @@ export default function App() {
     console.log(teamTwoHistory)
   }, [teamOneHistory, teamTwoHistory])
 
+  useEffect(() => {
+    if (roundNumber !== 0) {
+      setTeamOne(s => ({
+        ...s,
+        pprAvg: teamOne.totalPoints / roundNumber
+      }))
+    }
+  }, [teamOne.totalPoints, roundNumber])
+
   function AddPointsTeamOne(points) {
     if (teamOne.roundScore + points <= 12 && (teamOne.roundScore > 0 || points > 0)) {
       setTeamOne(s => ({ ...s, roundScore: points + teamOne.roundScore }))
     }
   }
+
   function AddPointsTeamTwo(points) {
     if (teamTwo.roundScore + points <= 12 && (teamTwo.roundScore > 0 || points > 0)) {
       setTeamTwo(s => ({ ...s, roundScore: points + teamTwo.roundScore }))
     }
   }
+
   function AddBagTeamOne(bagType) {
     if (teamOne.bagnumber === 1) {
       setTeamOne(s => ({ ...s, bag1: bagType }))
@@ -52,13 +75,13 @@ export default function App() {
       setTeamOne(s => ({ ...s, bag3: bagType }))
     }
     if (teamOne.bagnumber === 4) {
-      setTeamOne(s => ({ ...s, bag4: bagType }))
-      setTeamOne(s => ({ ...s, bagnumber: '-' }))
+      setTeamOne(s => ({ ...s, bag4: bagType, bagnumber: '-' }))
     }
     if (teamOne.bagnumber !== 4) {
       setTeamOne(s => ({ ...s, bagnumber: teamOne.bagnumber + 1 }))
     }
   }
+
   function AddBagTeamTwo(bagType) {
     if (teamTwo.bagnumber === 1) {
       setTeamTwo(s => ({ ...s, bag1: bagType }))
@@ -70,24 +93,31 @@ export default function App() {
       setTeamTwo(s => ({ ...s, bag3: bagType }))
     }
     if (teamTwo.bagnumber === 4) {
-      setTeamTwo(s => ({ ...s, bag4: bagType }))
-      setTeamTwo(s => ({ ...s, bagnumber: '-' }))
+      setTeamTwo(s => ({ ...s, bag4: bagType, bagnumber: '-' }))
     }
     if (teamTwo.bagnumber !== 4) {
       setTeamTwo(s => ({ ...s, bagnumber: teamTwo.bagnumber + 1 }))
     }
   }
+
   function ScoreRound() {
     teamOne.roundScore > teamTwo.roundScore ? setStartingTeamOne(true) : setStartingTeamOne(false)
     let teamOneScore = teamOne.roundScore - teamTwo.roundScore < 0 ? 0 : teamOne.roundScore - teamTwo.roundScore
 
     let teamTwoScore = teamTwo.roundScore - teamOne.roundScore < 0 ? 0 : teamTwo.roundScore - teamOne.roundScore
 
-    setTeamOne(s => ({ ...s, score: teamOneScore + teamOne.score }))
-    setTeamOne(s => ({ ...s, roundScore: 0 }))
+    setTeamOne(s => ({
+      ...s,
+      score: teamOneScore + teamOne.score,
+      totalPoints: teamOne.totalPoints + teamOne.roundScore
+      //   pprAvg: teamOne.totalPoints / roundNumber
+    }))
+    // setTeamOne(s => ({
+    //   ...s,
+    //   pprAvg: teamOne.totalPoints / roundNumber
+    // }))
 
-    setTeamTwo(s => ({ ...s, score: teamTwoScore + teamTwo.score }))
-    setTeamTwo(s => ({ ...s, roundScore: 0 }))
+    setTeamTwo(s => ({ ...s, score: teamTwoScore + teamTwo.score, roundScore: 0 }))
 
     if (teamOneScore + teamOne.score >= 21 || teamTwoScore + teamTwo.score >= 21) {
       setIsGameOver(true)
@@ -101,8 +131,7 @@ export default function App() {
       ...teamOneHistory,
       {
         round: roundNumber,
-        points: teamOne.roundScore,
-        score: teamOneScore + teamOne.score,
+        ...teamOne,
         bags: [teamOne.bag1, teamOne.bag2, teamOne.bag3, teamOne.bag4]
       }
     ])
@@ -110,11 +139,16 @@ export default function App() {
       ...teamTwoHistory,
       {
         round: roundNumber,
-        points: teamTwo.roundScore,
-        score: teamTwoScore + teamTwo.score,
+        ...teamTwo,
         bags: [teamTwo.bag1, teamTwo.bag2, teamTwo.bag3, teamTwo.bag4]
       }
     ])
+    ClearRound()
+  }
+
+  function ClearRound() {
+    setTeamOne(s => ({ ...s, roundScore: 0 }))
+    setTeamTwo(s => ({ ...s, roundScore: 0 }))
   }
 
   function ResetGame() {
@@ -247,13 +281,14 @@ export default function App() {
               </>
             )}
           </Card>
+          <PlayerStats player={teamOne} />
         </Grid>
 
         {/* CenterCard */}
         <Grid>
-          <Card style={{ margin: '10px', padding: '30px 10px', textAlign: 'center', width: '200px' }}>
+          <Card style={{ margin: '10px', padding: '10px 10px', textAlign: 'center', width: '200px', height: '450px' }}>
             <ArrowCircleLeftIcon fontSize='large' style={{ marginRight: '20px', color: startingTeamOne ? 'green' : 'white' }} />
-            Round {roundNumber}
+            Round {roundNumber + 1}
             <ArrowCircleRightIcon fontSize='large' style={{ marginLeft: '20px', color: startingTeamOne ? 'white' : 'green' }} />
             <h1>Score</h1>
             <h2>Round Score</h2>
@@ -268,6 +303,7 @@ export default function App() {
               New Game
             </Button>
           </Card>
+          <CenterStatCard />
         </Grid>
 
         {/* Team Two card */}
@@ -389,6 +425,7 @@ export default function App() {
               </>
             )}
           </Card>
+          <PlayerStats player={teamTwo} />
         </Grid>
       </Grid>
     </>

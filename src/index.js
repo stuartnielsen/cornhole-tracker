@@ -1,6 +1,6 @@
 import React from 'react'
 import reactDom from 'react-dom'
-import App from './App'
+import GamePage from './Components/GamePage'
 import './index.css'
 
 if (window.location.pathname === '/logout') {
@@ -9,7 +9,7 @@ if (window.location.pathname === '/logout') {
 
 reactDom.render(
   <>
-    <App />
+    <GamePage />
   </>,
   document.getElementById('root')
 )
