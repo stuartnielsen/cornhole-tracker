@@ -18,6 +18,7 @@ const DEFAULT_TEAM = {
   totalPoints: 0,
   pprAvg: 0,
   fourBaggers: 0,
+  bagsThrown: 0,
   slide: 0,
   airmail: 0,
   roll: 0,
@@ -52,6 +53,15 @@ export default function GamePage() {
     }
   }, [teamOne.totalPoints, roundNumber])
 
+  useEffect(() => {
+    if (roundNumber !== 0) {
+      setTeamTwo(s => ({
+        ...s,
+        pprAvg: teamTwo.totalPoints / roundNumber
+      }))
+    }
+  }, [teamTwo.totalPoints, roundNumber])
+
   function AddPointsTeamOne(points) {
     if (teamOne.roundScore + points <= 12 && (teamOne.roundScore > 0 || points > 0)) {
       setTeamOne(s => ({ ...s, roundScore: points + teamOne.roundScore }))
@@ -65,6 +75,35 @@ export default function GamePage() {
   }
 
   function AddBagTeamOne(bagType) {
+    if (teamOne.bagnumber < 5) {
+      switch (bagType) {
+        case 'Slide':
+          setTeamOne(s => ({ ...s, slide: teamOne.slide + 1 }))
+          break
+        case 'Airmail':
+          setTeamOne(s => ({ ...s, airmail: teamOne.airmail + 1 }))
+          break
+        case 'Roll':
+          setTeamOne(s => ({ ...s, roll: teamOne.roll + 1 }))
+          break
+        case 'Block':
+          setTeamOne(s => ({ ...s, block: teamOne.block + 1 }))
+          break
+        case 'Push':
+          setTeamOne(s => ({ ...s, push: teamOne.push + 1 }))
+          break
+        case 'Woody':
+          setTeamOne(s => ({ ...s, woody: teamOne.woody + 1 }))
+          break
+        case 'Bully':
+          setTeamOne(s => ({ ...s, bully: teamOne.bully + 1 }))
+          break
+        case 'Foul':
+          setTeamOne(s => ({ ...s, foul: teamOne.foul + 1 }))
+          break
+        default:
+      }
+    }
     if (teamOne.bagnumber === 1) {
       setTeamOne(s => ({ ...s, bag1: bagType }))
     }
@@ -75,14 +114,43 @@ export default function GamePage() {
       setTeamOne(s => ({ ...s, bag3: bagType }))
     }
     if (teamOne.bagnumber === 4) {
-      setTeamOne(s => ({ ...s, bag4: bagType, bagnumber: '-' }))
+      setTeamOne(s => ({ ...s, bag4: bagType, bagnumber: '-', bagsThrown: teamOne.bagsThrown + 1 }))
     }
-    if (teamOne.bagnumber !== 4) {
-      setTeamOne(s => ({ ...s, bagnumber: teamOne.bagnumber + 1 }))
+    if (teamOne.bagnumber < 4) {
+      setTeamOne(s => ({ ...s, bagnumber: teamOne.bagnumber + 1, bagsThrown: teamOne.bagsThrown + 1 }))
     }
   }
 
   function AddBagTeamTwo(bagType) {
+    if (teamTwo.bagnumber < 5) {
+      switch (bagType) {
+        case 'Slide':
+          setTeamTwo(s => ({ ...s, slide: teamTwo.slide + 1 }))
+          break
+        case 'Airmail':
+          setTeamTwo(s => ({ ...s, airmail: teamTwo.airmail + 1 }))
+          break
+        case 'Roll':
+          setTeamTwo(s => ({ ...s, roll: teamTwo.roll + 1 }))
+          break
+        case 'Block':
+          setTeamTwo(s => ({ ...s, block: teamTwo.block + 1 }))
+          break
+        case 'Push':
+          setTeamTwo(s => ({ ...s, push: teamTwo.push + 1 }))
+          break
+        case 'Woody':
+          setTeamTwo(s => ({ ...s, woody: teamTwo.woody + 1 }))
+          break
+        case 'Bully':
+          setTeamTwo(s => ({ ...s, bully: teamTwo.bully + 1 }))
+          break
+        case 'Foul':
+          setTeamTwo(s => ({ ...s, foul: teamTwo.foul + 1 }))
+          break
+        default:
+      }
+    }
     if (teamTwo.bagnumber === 1) {
       setTeamTwo(s => ({ ...s, bag1: bagType }))
     }
@@ -93,10 +161,10 @@ export default function GamePage() {
       setTeamTwo(s => ({ ...s, bag3: bagType }))
     }
     if (teamTwo.bagnumber === 4) {
-      setTeamTwo(s => ({ ...s, bag4: bagType, bagnumber: '-' }))
+      setTeamTwo(s => ({ ...s, bag4: bagType, bagnumber: '-', bagsThrown: teamTwo.bagsThrown + 1 }))
     }
-    if (teamTwo.bagnumber !== 4) {
-      setTeamTwo(s => ({ ...s, bagnumber: teamTwo.bagnumber + 1 }))
+    if (teamTwo.bagnumber < 4) {
+      setTeamTwo(s => ({ ...s, bagnumber: teamTwo.bagnumber + 1, bagsThrown: teamTwo.bagsThrown + 1 }))
     }
   }
 
@@ -109,15 +177,16 @@ export default function GamePage() {
     setTeamOne(s => ({
       ...s,
       score: teamOneScore + teamOne.score,
-      totalPoints: teamOne.totalPoints + teamOne.roundScore
-      //   pprAvg: teamOne.totalPoints / roundNumber
+      totalPoints: teamOne.totalPoints + teamOne.roundScore,
+      fourBaggers: teamOne.roundScore === 12 ? teamOne.fourBaggers + 1 : teamOne.fourBaggers
     }))
-    // setTeamOne(s => ({
-    //   ...s,
-    //   pprAvg: teamOne.totalPoints / roundNumber
-    // }))
 
-    setTeamTwo(s => ({ ...s, score: teamTwoScore + teamTwo.score, roundScore: 0 }))
+    setTeamTwo(s => ({
+      ...s,
+      score: teamTwoScore + teamTwo.score,
+      totalPoints: teamTwo.totalPoints + teamTwo.roundScore,
+      fourBaggers: teamTwo.roundScore === 12 ? teamTwo.fourBaggers + 1 : teamTwo.fourBaggers
+    }))
 
     if (teamOneScore + teamOne.score >= 21 || teamTwoScore + teamTwo.score >= 21) {
       setIsGameOver(true)

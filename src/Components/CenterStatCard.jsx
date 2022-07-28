@@ -3,11 +3,12 @@ import { Card } from '@mui/material'
 export default function CenterStatCard() {
   return (
     <>
-      <Card style={{ margin: '10px', padding: '10px', textAlign: 'center', width: '255x', height: '480px' }}>
+      <Card style={{ margin: '10px', padding: '10px', textAlign: 'center', width: '255x', height: '520px' }}>
         <h3>Stats</h3>
         <h5>TotalPoints</h5>
         <h5>PPR Avg.</h5>
         <h5>4 Baggers</h5>
+        <h5>Bags Thrown</h5>
         <h5>Slide</h5>
         <h5>Airmail</h5>
         <h5>Roll</h5>
