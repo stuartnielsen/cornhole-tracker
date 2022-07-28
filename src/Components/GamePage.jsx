@@ -5,6 +5,7 @@ import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
 import PlayerStats from './PlayerStats'
 import CenterStatCard from './CenterStatCard'
 import { useEffect } from 'react'
+import PlayerCard from './PlayerCard'
 
 const DEFAULT_TEAM = {
   teamName: 'Team Name',
@@ -38,6 +39,8 @@ export default function GamePage() {
   const [bagDescription, setBagDescription] = useState()
   const [startingTeamOne, setStartingTeamOne] = useState(true)
   const [isGameOver, setIsGameOver] = useState(false)
+  const [teamOneScore, setTeamOneScore] = useState(0)
+  const [teamTwoScore, setTeamTwoScore] = useState(0)
 
   useEffect(() => {
     console.log(teamOneHistory)
@@ -169,7 +172,11 @@ export default function GamePage() {
   }
 
   function ScoreRound() {
-    teamOne.roundScore > teamTwo.roundScore ? setStartingTeamOne(true) : setStartingTeamOne(false)
+    teamOne.roundScore > teamTwo.roundScore
+      ? setStartingTeamOne(true)
+      : teamOne.roundScore < teamTwo.roundScore
+      ? setStartingTeamOne(false)
+      : setStartingTeamOne(startingTeamOne)
     let teamOneScore = teamOne.roundScore - teamTwo.roundScore < 0 ? 0 : teamOne.roundScore - teamTwo.roundScore
 
     let teamTwoScore = teamTwo.roundScore - teamOne.roundScore < 0 ? 0 : teamTwo.roundScore - teamOne.roundScore
@@ -230,6 +237,15 @@ export default function GamePage() {
   return (
     <>
       <Grid container>
+        <Grid>
+          <PlayerCard
+            isGameOver={isGameOver}
+            setBagDescription={setBagDescription}
+            opponentsScore={teamTwoScore}
+            setScore={setTeamOneScore}
+            roundNumber={roundNumber}
+          />
+        </Grid>
         {/* Team One Card */}
         <Grid>
           <Card
