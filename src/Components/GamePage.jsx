@@ -39,8 +39,10 @@ export default function GamePage() {
   const [bagDescription, setBagDescription] = useState()
   const [startingTeamOne, setStartingTeamOne] = useState(true)
   const [isGameOver, setIsGameOver] = useState(false)
-  const [teamOneScore, setTeamOneScore] = useState(0)
-  const [teamTwoScore, setTeamTwoScore] = useState(0)
+  const [teamOneRoundScore, setTeamOneRoundScore] = useState(0)
+  const [teamTwoRoundScore, setTeamTwoRoundScore] = useState(0)
+  const [teamTwoGamePoints, setTeamTwoGamePoints] = useState(0)
+  const [teamOneGamePoints, setTeamOneGamePoints] = useState(0)
 
   useEffect(() => {
     console.log(teamOneHistory)
@@ -172,30 +174,25 @@ export default function GamePage() {
   }
 
   function ScoreRound() {
-    teamOne.roundScore > teamTwo.roundScore
+    let teamOnesScore = teamOneRoundScore - teamTwoRoundScore < 0 ? 0 : teamOneRoundScore - teamTwoRoundScore
+
+    let teamTwosScore = teamTwoRoundScore - teamOneRoundScore < 0 ? 0 : teamTwoRoundScore - teamOneRoundScore
+
+    console.log(`team One: ${teamOnesScore}`)
+    console.log(teamOneRoundScore)
+    console.log(`team Two: ${teamTwosScore}`)
+    console.log(teamTwoRoundScore)
+
+    setTeamOneGamePoints(teamOnesScore + teamOneGamePoints)
+    setTeamTwoGamePoints(teamTwosScore + teamTwoGamePoints)
+
+    teamOneRoundScore > teamTwoRoundScore
       ? setStartingTeamOne(true)
-      : teamOne.roundScore < teamTwo.roundScore
+      : teamOneRoundScore < teamTwoRoundScore
       ? setStartingTeamOne(false)
       : setStartingTeamOne(startingTeamOne)
-    let teamOneScore = teamOne.roundScore - teamTwo.roundScore < 0 ? 0 : teamOne.roundScore - teamTwo.roundScore
 
-    let teamTwoScore = teamTwo.roundScore - teamOne.roundScore < 0 ? 0 : teamTwo.roundScore - teamOne.roundScore
-
-    setTeamOne(s => ({
-      ...s,
-      score: teamOneScore + teamOne.score,
-      totalPoints: teamOne.totalPoints + teamOne.roundScore,
-      fourBaggers: teamOne.roundScore === 12 ? teamOne.fourBaggers + 1 : teamOne.fourBaggers
-    }))
-
-    setTeamTwo(s => ({
-      ...s,
-      score: teamTwoScore + teamTwo.score,
-      totalPoints: teamTwo.totalPoints + teamTwo.roundScore,
-      fourBaggers: teamTwo.roundScore === 12 ? teamTwo.fourBaggers + 1 : teamTwo.fourBaggers
-    }))
-
-    if (teamOneScore + teamOne.score >= 21 || teamTwoScore + teamTwo.score >= 21) {
+    if (teamOneGamePoints + teamOne.score >= 21 || teamTwoGamePoints + teamTwo.score >= 21) {
       setIsGameOver(true)
     } else {
       setRoundNumber(roundNumber + 1)
@@ -223,8 +220,10 @@ export default function GamePage() {
   }
 
   function ClearRound() {
-    setTeamOne(s => ({ ...s, roundScore: 0 }))
-    setTeamTwo(s => ({ ...s, roundScore: 0 }))
+    setTeamOneRoundScore(0)
+    setTeamTwoRoundScore(0)
+    setTeamOneRoundScore(0)
+    setTeamTwoRoundScore(0)
   }
 
   function ResetGame() {
@@ -241,9 +240,11 @@ export default function GamePage() {
           <PlayerCard
             isGameOver={isGameOver}
             setBagDescription={setBagDescription}
-            opponentsScore={teamTwoScore}
-            setScore={setTeamOneScore}
+            opponentsScore={teamTwoRoundScore}
+            setScore={setTeamOneRoundScore}
             roundNumber={roundNumber}
+            gamePoints={teamOneGamePoints}
+            roundPoints={teamOneRoundScore}
           />
         </Grid>
         {/* Team One Card */}
@@ -392,6 +393,17 @@ export default function GamePage() {
         </Grid>
 
         {/* Team Two card */}
+        <Grid>
+          <PlayerCard
+            isGameOver={isGameOver}
+            setBagDescription={setBagDescription}
+            opponentsScore={teamOneRoundScore}
+            setScore={setTeamTwoRoundScore}
+            roundNumber={roundNumber}
+            gamePoints={teamTwoGamePoints}
+            roundPoints={teamTwoRoundScore}
+          />
+        </Grid>
         <Grid>
           <Card style={{ margin: '10px', padding: '10px', textAlign: 'center', width: '255x', height: '450px' }}>
             <TextField

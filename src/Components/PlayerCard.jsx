@@ -25,23 +25,39 @@ const DEFAULT_TEAM = {
   foul: 0
 }
 
-export default function PlayerCard({ isGameOver, setBagDescription, OpponentsScore, setScore, roundNumber }) {
+export default function PlayerCard({
+  isGameOver,
+  setBagDescription,
+  OpponentsScore,
+  setScore,
+  roundNumber,
+  gamePoints,
+  roundPoints
+}) {
   const [player, setPlayer] = useState(DEFAULT_TEAM)
   const [history, setHistory] = useState([])
 
+  // useEffect(() => {
+  //   if (roundNumber !== 0) {
+  //     setPlayer(s => ({
+  //       ...s,
+  //       pprAvg: player.totalPoints / roundNumber
+  //     }))
+  //   }
+  // }, [player.totalPoints, roundNumber])
+
   useEffect(() => {
-    if (roundNumber !== 0) {
-      setPlayer(s => ({
-        ...s,
-        pprAvg: player.totalPoints / roundNumber
-      }))
-    }
-  }, [player.totalPoints, roundNumber])
+    setPlayer(s => ({ ...s, score: gamePoints }))
+  }, [gamePoints])
+
+  useEffect(() => {
+    setScore(roundPoints)
+  }, [roundPoints, setScore])
 
   function AddPlayerPoints(points) {
-    if (player.roundScore + points <= 12 && (player.roundScore > 0 || points > 0)) {
-      setPlayer(s => ({ ...s, roundScore: points + player.roundScore }))
-      setScore(player.roundScore)
+    if (roundPoints + points <= 12 && (roundPoints > 0 || points > 0)) {
+      setScore(points + roundPoints)
+      // setScore(player.roundScore)
     }
   }
 
@@ -134,7 +150,7 @@ export default function PlayerCard({ isGameOver, setBagDescription, OpponentsSco
       <Card style={{ margin: '10px', padding: '10px', alignItems: 'end', textAlign: 'center', width: '255x', height: '450px' }}>
         <TextField size='small' value={player.teamName} onChange={e => setPlayer(f => ({ ...f, teamName: e.target.value }))} />
         <h1>{player.score}</h1>
-        <h2>{player.roundScore}</h2>
+        <h2>{roundPoints}</h2>
         {isGameOver ? (
           player.score > 21 ? (
             <div>{player.teamName} Wins</div>
