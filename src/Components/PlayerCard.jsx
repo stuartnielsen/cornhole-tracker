@@ -1,6 +1,7 @@
 import { Button, Card, TextField } from '@mui/material'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import PlayerStats from './PlayerStats'
 
 const DEFAULT_TEAM = {
   teamName: 'Team Name',
@@ -28,36 +29,49 @@ const DEFAULT_TEAM = {
 export default function PlayerCard({
   isGameOver,
   setBagDescription,
-  OpponentsScore,
+  fourBaggers,
   setScore,
   roundNumber,
   gamePoints,
-  roundPoints
+  roundPoints,
+  bagNumber,
+  setBagNumber
 }) {
   const [player, setPlayer] = useState(DEFAULT_TEAM)
-  const [history, setHistory] = useState([])
+  // const [history, setHistory] = useState([])
 
   // useEffect(() => {
-  //   if (roundNumber !== 0) {
-  //     setPlayer(s => ({
-  //       ...s,
-  //       pprAvg: player.totalPoints / roundNumber
-  //     }))
-  //   }
-  // }, [player.totalPoints, roundNumber])
+  //   setHistory([
+  //     ...history,
+  //     {
+  //       round: roundNumber,
+  //       ...player,
+  //       bags: [player.bag1, player.bag2, player.bag3, player.bag4]
+  //     }
+  //   ])
+  // }, [history, roundNumber, player])
+  useEffect(() => {
+    if (roundNumber !== 0) {
+      setPlayer(s => ({
+        ...s,
+        pprAvg: player.totalPoints / roundNumber
+      }))
+    }
+  }, [player.totalPoints, roundNumber])
 
   useEffect(() => {
-    setPlayer(s => ({ ...s, score: gamePoints }))
-  }, [gamePoints])
+    setPlayer(s => ({ ...s, score: gamePoints, fourBaggers: fourBaggers }))
+  }, [gamePoints, fourBaggers])
 
   useEffect(() => {
     setScore(roundPoints)
-  }, [roundPoints, setScore])
+    setPlayer(s => ({ ...s, roundScore: roundPoints }))
+  }, [roundPoints, setScore, player.fourBaggers])
 
   function AddPlayerPoints(points) {
     if (roundPoints + points <= 12 && (roundPoints > 0 || points > 0)) {
       setScore(points + roundPoints)
-      // setScore(player.roundScore)
+      setPlayer(s => ({ ...s, totalPoints: player.totalPoints + points }))
     }
   }
 
@@ -91,58 +105,23 @@ export default function PlayerCard({
         default:
       }
     }
-    if (player.bagnumber === 1) {
+    if (bagNumber === 1) {
       setPlayer(s => ({ ...s, bag1: bagType }))
     }
-    if (player.bagnumber === 2) {
+    if (bagNumber === 2) {
       setPlayer(s => ({ ...s, bag2: bagType }))
     }
-    if (player.bagnumber === 3) {
+    if (bagNumber === 3) {
       setPlayer(s => ({ ...s, bag3: bagType }))
     }
-    if (player.bagnumber === 4) {
+    if (bagNumber === 4) {
       setPlayer(s => ({ ...s, bag4: bagType, bagnumber: '-', bagsThrown: player.bagsThrown + 1 }))
+      setBagNumber('-')
     }
-    if (player.bagnumber < 4) {
+    if (bagNumber < 4) {
       setPlayer(s => ({ ...s, bagnumber: player.bagnumber + 1, bagsThrown: player.bagsThrown + 1 }))
+      setBagNumber(bagNumber + 1)
     }
-  }
-
-  function ScoreRound() {
-    // player.roundScore > OpponentsScore
-    //   ? setStartingTeamOne(true)
-    //   : player.roundScore < OpponentsScore
-    //   ? setStartingTeamOne(false)
-    //   : setStartingTeamOne(startingTeamOne)
-    let teamOneScore = player.roundScore - OpponentsScore < 0 ? 0 : player.roundScore - OpponentsScore
-
-    setPlayer(s => ({
-      ...s,
-      score: teamOneScore + player.score,
-      totalPoints: player.totalPoints + player.roundScore,
-      fourBaggers: player.roundScore === 12 ? player.fourBaggers + 1 : player.fourBaggers
-    }))
-
-    // if (teamOneScore + player.score >= 21 ) {
-    //   setIsGameOver(true)
-    // } else {
-    //   setRoundNumber(roundNumber + 1)
-    //   setPlayer(s => ({ ...s, bagnumber: 1 }))
-    // }
-
-    setHistory([
-      ...history,
-      {
-        round: roundNumber,
-        ...player,
-        bags: [player.bag1, player.bag2, player.bag3, player.bag4]
-      }
-    ])
-    ClearRound()
-  }
-
-  function ClearRound() {
-    setPlayer(s => ({ ...s, roundScore: 0 }))
   }
 
   return (
@@ -173,7 +152,7 @@ export default function PlayerCard({
                 -1
               </Button>
             </h4>
-            <h2>Shot {player.bagnumber}</h2>
+            <h2>Shot {bagNumber}</h2>
             <div>
               <Button
                 onClick={() => AddBagTeamOne('Slide')}
@@ -258,6 +237,7 @@ export default function PlayerCard({
           </>
         )}
       </Card>
+      <PlayerStats player={player} />
     </>
   )
 }
