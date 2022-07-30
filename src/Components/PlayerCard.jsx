@@ -1,4 +1,4 @@
-import { Button, Card, TextField } from '@mui/material'
+import { Button, Card, Divider, TextField } from '@mui/material'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import PlayerStats from './PlayerStats'
@@ -148,20 +148,6 @@ export default function PlayerCard({
           )
         ) : (
           <>
-            <h4>
-              <Button variant='outlined' onClick={() => AddPlayerPoints(3)} disabled={isGameOver}>
-                +3
-              </Button>
-              <Button variant='outlined' onClick={() => AddPlayerPoints(2)} disabled={isGameOver}>
-                +2
-              </Button>
-              <Button variant='outlined' onClick={() => AddPlayerPoints(1)} disabled={isGameOver}>
-                +1
-              </Button>
-              <Button variant='outlined' onClick={() => AddPlayerPoints(-1)} disabled={isGameOver}>
-                -1
-              </Button>
-            </h4>
             <h2>Shot {bagNumber < 5 ? bagNumber : '-'}</h2>
             <div>
               <Button
@@ -253,6 +239,21 @@ export default function PlayerCard({
                 And One
               </Button>
             </div>
+            <Divider style={{ margin: '10px -10px -10px -10px' }} />
+            <h4>
+              <Button variant='outlined' onClick={() => AddPlayerPoints(3)} disabled={isGameOver}>
+                +3
+              </Button>
+              <Button variant='outlined' onClick={() => AddPlayerPoints(2)} disabled={isGameOver}>
+                +2
+              </Button>
+              <Button variant='outlined' onClick={() => AddPlayerPoints(1)} disabled={isGameOver}>
+                +1
+              </Button>
+              <Button variant='outlined' onClick={() => AddPlayerPoints(-1)} disabled={isGameOver}>
+                -1
+              </Button>
+            </h4>
           </>
         )}
       </Card>

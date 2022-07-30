@@ -126,7 +126,7 @@ export default function GamePage() {
 /*TODO: 
 Export Stats
 avg. rounds per game
-shot adds to score
 4 player game
 Games Played/won tracker
+shot type percentage
 */

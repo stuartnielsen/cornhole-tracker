@@ -9,14 +9,14 @@ export default function CenterStatCard() {
         <h5>PPR Avg.</h5>
         <h5>4 Baggers</h5>
         <h5>Bags Thrown</h5>
-        <h5>Slide</h5>
-        <h5>Airmail</h5>
-        <h5>Roll</h5>
-        <h5>Block</h5>
-        <h5>Push</h5>
-        <h5>Woody</h5>
-        <h5>Bully</h5>
-        <h5>Foul</h5>
+        <h5>Slide / pct.</h5>
+        <h5>Airmail / pct.</h5>
+        <h5>Roll / pct.</h5>
+        <h5>Block / pct.</h5>
+        <h5>Push / pct.</h5>
+        <h5>Woody / pct.</h5>
+        <h5>Bully / pct.</h5>
+        <h5>Foul / pct.</h5>
       </Card>
     </>
   )

@@ -11,14 +11,30 @@ export default function PlayerStats({ player, totalRounds }) {
         <h5>{player.pprAvg.toFixed(2)}</h5>
         <h5>{player.fourBaggers}</h5>
         <h5>{player.bagsThrown}</h5>
-        <h5>{player.slide}</h5>
-        <h5>{player.airmail}</h5>
-        <h5>{player.roll}</h5>
-        <h5>{player.block}</h5>
-        <h5>{player.push}</h5>
-        <h5>{player.woody}</h5>
-        <h5>{player.bully}</h5>
-        <h5>{player.foul}</h5>
+        <h5>
+          {player.slide} / {((player.slide / player.bagsThrown) * 100).toFixed(2)}
+        </h5>
+        <h5>
+          {player.airmail} / {((player.airmail / player.bagsThrown) * 100).toFixed(2)}
+        </h5>
+        <h5>
+          {player.roll} / {((player.roll / player.bagsThrown) * 100).toFixed(2)}
+        </h5>
+        <h5>
+          {player.block} / {((player.block / player.bagsThrown) * 100).toFixed(2)}
+        </h5>
+        <h5>
+          {player.push} / {((player.push / player.bagsThrown) * 100).toFixed(2)}
+        </h5>
+        <h5>
+          {player.woody} / {((player.woody / player.bagsThrown) * 100).toFixed(2)}
+        </h5>
+        <h5>
+          {player.bully} / {((player.bully / player.bagsThrown) * 100).toFixed(2)}
+        </h5>
+        <h5>
+          {player.foul}/ {((player.foul / player.bagsThrown) * 100).toFixed(2)}
+        </h5>
       </Card>
     </>
   )
