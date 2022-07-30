@@ -35,7 +35,8 @@ export default function PlayerCard({
   gamePoints,
   roundPoints,
   bagNumber,
-  setBagNumber
+  setBagNumber,
+  totalRounds
 }) {
   const [player, setPlayer] = useState(DEFAULT_TEAM)
   // const [history, setHistory] = useState([])
@@ -51,13 +52,13 @@ export default function PlayerCard({
   //   ])
   // }, [history, roundNumber, player])
   useEffect(() => {
-    if (roundNumber !== 0) {
+    if (totalRounds !== 0) {
       setPlayer(s => ({
         ...s,
-        pprAvg: player.totalPoints / roundNumber
+        pprAvg: player.totalPoints / totalRounds
       }))
     }
-  }, [player.totalPoints, roundNumber])
+  }, [player.totalPoints, totalRounds])
 
   useEffect(() => {
     setPlayer(s => ({ ...s, score: gamePoints, fourBaggers: fourBaggers }))
@@ -76,31 +77,40 @@ export default function PlayerCard({
   }
 
   function AddBagTeamOne(bagType) {
-    if (player.bagnumber < 5) {
+    if (bagNumber < 5) {
       switch (bagType) {
         case 'Slide':
           setPlayer(s => ({ ...s, slide: player.slide + 1 }))
+          AddPlayerPoints(3)
           break
         case 'Airmail':
           setPlayer(s => ({ ...s, airmail: player.airmail + 1 }))
+          AddPlayerPoints(3)
           break
         case 'Roll':
           setPlayer(s => ({ ...s, roll: player.roll + 1 }))
+          AddPlayerPoints(3)
           break
         case 'Block':
           setPlayer(s => ({ ...s, block: player.block + 1 }))
+          AddPlayerPoints(1)
           break
         case 'Push':
           setPlayer(s => ({ ...s, push: player.push + 1 }))
           break
         case 'Woody':
           setPlayer(s => ({ ...s, woody: player.woody + 1 }))
+          AddPlayerPoints(1)
           break
         case 'Bully':
           setPlayer(s => ({ ...s, bully: player.bully + 1 }))
           break
         case 'Foul':
           setPlayer(s => ({ ...s, foul: player.foul + 1 }))
+          break
+        case 'And One':
+          setPlayer(s => ({ ...s, foul: player.foul + 1 }))
+          AddPlayerPoints(3)
           break
         default:
       }
@@ -115,7 +125,7 @@ export default function PlayerCard({
       setPlayer(s => ({ ...s, bag3: bagType }))
     }
     if (bagNumber === 4) {
-      setPlayer(s => ({ ...s, bag4: bagType, bagnumber: '-', bagsThrown: player.bagsThrown + 1 }))
+      setPlayer(s => ({ ...s, bag4: bagType, bagnumber: 5, bagsThrown: player.bagsThrown + 1 }))
       setBagNumber('-')
     }
     if (bagNumber < 4) {
@@ -152,7 +162,7 @@ export default function PlayerCard({
                 -1
               </Button>
             </h4>
-            <h2>Shot {bagNumber}</h2>
+            <h2>Shot {bagNumber < 5 ? bagNumber : '-'}</h2>
             <div>
               <Button
                 onClick={() => AddBagTeamOne('Slide')}
@@ -226,18 +236,27 @@ export default function PlayerCard({
               </Button>
               <Button
                 onClick={() => AddBagTeamOne('Bully')}
-                style={{ width: '75px', margin: '10px 0px 0px 0px' }}
+                style={{ width: '75px', margin: '10px 10px 0px 0px' }}
                 color='error'
                 variant='outlined'
                 onMouseOver={() => setBagDescription('A bag that pushes or “bullies” your opponents bag out of the danger zone')}
                 onMouseLeave={() => setBagDescription('')}>
                 Bully
               </Button>
+              <Button
+                onClick={() => AddBagTeamOne('And One')}
+                style={{ width: '75px', margin: '10px 0px 0px 0px', whiteSpace: 'nowrap' }}
+                color='error'
+                variant='outlined'
+                onMouseOver={() => setBagDescription('A bag that goes in the hole and knocks an opponents bag off the board')}
+                onMouseLeave={() => setBagDescription('')}>
+                And One
+              </Button>
             </div>
           </>
         )}
       </Card>
-      <PlayerStats player={player} />
+      <PlayerStats player={player} totalRounds={totalRounds} />
     </>
   )
 }

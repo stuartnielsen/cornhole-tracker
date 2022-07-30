@@ -18,6 +18,7 @@ export default function GamePage() {
   const [teamTwoFourBaggers, setTeamTwoFourBaggers] = useState(0)
   const [teamOneBagNumber, setTeamOneBagNumber] = useState(1)
   const [teamTwoBagNumber, setTeamTwoBagNumber] = useState(1)
+  const [totalRounds, setTotalRounds] = useState(0)
 
   function ScoreRound() {
     if (teamOneRoundScore === 12) {
@@ -43,6 +44,7 @@ export default function GamePage() {
       setIsGameOver(true)
     } else {
       setRoundNumber(roundNumber + 1)
+      setTotalRounds(totalRounds + 1)
     }
     ClearRound()
   }
@@ -76,6 +78,7 @@ export default function GamePage() {
             roundPoints={teamOneRoundScore}
             bagNumber={teamOneBagNumber}
             setBagNumber={setTeamOneBagNumber}
+            totalRounds={totalRounds}
           />
         </Grid>
 
@@ -113,9 +116,17 @@ export default function GamePage() {
             roundPoints={teamTwoRoundScore}
             bagNumber={teamTwoBagNumber}
             setBagNumber={setTeamTwoBagNumber}
+            totalRounds={totalRounds}
           />
         </Grid>
       </Grid>
     </>
   )
 }
+/*TODO: 
+Export Stats
+avg. rounds per game
+shot adds to score
+4 player game
+Games Played/won tracker
+*/

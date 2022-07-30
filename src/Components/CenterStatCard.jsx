@@ -5,7 +5,7 @@ export default function CenterStatCard() {
     <>
       <Card style={{ margin: '10px', padding: '10px', textAlign: 'center', width: '255x', height: '520px' }}>
         <h3>Stats</h3>
-        <h5>TotalPoints</h5>
+        <h5>Total Rounds / Total Points</h5>
         <h5>PPR Avg.</h5>
         <h5>4 Baggers</h5>
         <h5>Bags Thrown</h5>
