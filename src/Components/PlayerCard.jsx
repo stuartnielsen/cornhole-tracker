@@ -36,7 +36,8 @@ export default function PlayerCard({
   roundPoints,
   bagNumber,
   setBagNumber,
-  totalRounds
+  totalRounds,
+  activePlayer
 }) {
   const [player, setPlayer] = useState(DEFAULT_TEAM)
   // const [history, setHistory] = useState([])
@@ -139,7 +140,7 @@ export default function PlayerCard({
       <Card style={{ margin: '10px', padding: '10px', alignItems: 'end', textAlign: 'center', width: '255x', height: '450px' }}>
         <TextField size='small' value={player.teamName} onChange={e => setPlayer(f => ({ ...f, teamName: e.target.value }))} />
         <h1>{player.score}</h1>
-        <h2>{roundPoints}</h2>
+        <h2>{!activePlayer ? roundPoints : 0}</h2>
         {isGameOver ? (
           player.score > 21 ? (
             <div>{player.teamName} Wins</div>
@@ -155,6 +156,7 @@ export default function PlayerCard({
                 style={{ width: '75px', margin: '10px 10px 0px 0px' }}
                 color='success'
                 variant='outlined'
+                disabled={activePlayer}
                 onMouseOver={() => setBagDescription('A bag that lands in front of the hole and slides in')}
                 onMouseLeave={() => setBagDescription('')}>
                 Slide
@@ -164,6 +166,7 @@ export default function PlayerCard({
                 style={{ width: '75px', margin: '10px 10px 0px 0px' }}
                 color='success'
                 variant='outlined'
+                disabled={activePlayer}
                 onMouseOver={() =>
                   setBagDescription(
                     'A bag that does not slide or bounce on the board but goes directly into the hole, usually over an opponents blocker bag'
@@ -177,6 +180,7 @@ export default function PlayerCard({
                 style={{ width: '75px', margin: '10px 0px 0px 0px' }}
                 color='success'
                 variant='outlined'
+                disabled={activePlayer}
                 onMouseOver={() => setBagDescription('A bag that goes over the top of a blocker and into the hole')}
                 onMouseLeave={() => setBagDescription('')}>
                 Roll
@@ -187,6 +191,7 @@ export default function PlayerCard({
                 onClick={() => AddBagTeamOne('Block')}
                 style={{ width: '75px', margin: '10px 10px 0px 0px' }}
                 variant='outlined'
+                disabled={activePlayer}
                 onMouseOver={() =>
                   setBagDescription('A bag that lands in front of the hole, blocking the hole from an opponents slide shot')
                 }
@@ -197,6 +202,7 @@ export default function PlayerCard({
                 onClick={() => AddBagTeamOne('Push')}
                 style={{ width: '75px', margin: '10px 10px 0px 0px' }}
                 variant='outlined'
+                disabled={activePlayer}
                 onMouseOver={() => setBagDescription('A bag that slides up the board and pushes a blocker in the hole')}
                 onMouseLeave={() => setBagDescription('')}>
                 Push
@@ -205,6 +211,7 @@ export default function PlayerCard({
                 onClick={() => AddBagTeamOne('Woody')}
                 style={{ width: '75px', margin: '10px 0px 0px 0px' }}
                 variant='outlined'
+                disabled={activePlayer}
                 onMouseOver={() => setBagDescription('A bag that lands on the board but does not block the hole')}
                 onMouseLeave={() => setBagDescription('')}>
                 Woody
@@ -216,6 +223,7 @@ export default function PlayerCard({
                 style={{ width: '75px', margin: '10px 10px 0px 0px' }}
                 color='error'
                 variant='outlined'
+                disabled={activePlayer}
                 onMouseOver={() => setBagDescription('A bag that is on, hit, or touching the ground')}
                 onMouseLeave={() => setBagDescription('')}>
                 Foul
@@ -225,6 +233,7 @@ export default function PlayerCard({
                 style={{ width: '75px', margin: '10px 10px 0px 0px' }}
                 color='error'
                 variant='outlined'
+                disabled={activePlayer}
                 onMouseOver={() => setBagDescription('A bag that pushes or “bullies” your opponents bag out of the danger zone')}
                 onMouseLeave={() => setBagDescription('')}>
                 Bully
@@ -234,6 +243,7 @@ export default function PlayerCard({
                 style={{ width: '75px', margin: '10px 0px 0px 0px', whiteSpace: 'nowrap' }}
                 color='error'
                 variant='outlined'
+                disabled={activePlayer}
                 onMouseOver={() => setBagDescription('A bag that goes in the hole and knocks an opponents bag off the board')}
                 onMouseLeave={() => setBagDescription('')}>
                 And One
@@ -241,16 +251,16 @@ export default function PlayerCard({
             </div>
             <Divider style={{ margin: '10px -10px -10px -10px' }} />
             <h4>
-              <Button variant='outlined' onClick={() => AddPlayerPoints(3)} disabled={isGameOver}>
+              <Button variant='outlined' onClick={() => AddPlayerPoints(3)} disabled={isGameOver || activePlayer}>
                 +3
               </Button>
-              <Button variant='outlined' onClick={() => AddPlayerPoints(2)} disabled={isGameOver}>
+              <Button variant='outlined' onClick={() => AddPlayerPoints(2)} disabled={isGameOver || activePlayer}>
                 +2
               </Button>
-              <Button variant='outlined' onClick={() => AddPlayerPoints(1)} disabled={isGameOver}>
+              <Button variant='outlined' onClick={() => AddPlayerPoints(1)} disabled={isGameOver || activePlayer}>
                 +1
               </Button>
-              <Button variant='outlined' onClick={() => AddPlayerPoints(-1)} disabled={isGameOver}>
+              <Button variant='outlined' onClick={() => AddPlayerPoints(-1)} disabled={isGameOver || activePlayer}>
                 -1
               </Button>
             </h4>

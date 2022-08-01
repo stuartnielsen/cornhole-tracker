@@ -1,12 +1,14 @@
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft'
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
-import { Button, Card, Grid } from '@mui/material'
+import { Button, Card, Grid, Switch } from '@mui/material'
 import { useState } from 'react'
 import CenterStatCard from './CenterStatCard'
 import PlayerCard from './PlayerCard'
 
 export default function GamePage() {
   const [roundNumber, setRoundNumber] = useState(0)
+  const [totalRounds, setTotalRounds] = useState(0)
+  const [sideTwoRounds, setSideTwoRounds] = useState(0)
   const [bagDescription, setBagDescription] = useState()
   const [startingTeamOne, setStartingTeamOne] = useState(true)
   const [isGameOver, setIsGameOver] = useState(false)
@@ -18,8 +20,8 @@ export default function GamePage() {
   const [teamTwoFourBaggers, setTeamTwoFourBaggers] = useState(0)
   const [teamOneBagNumber, setTeamOneBagNumber] = useState(1)
   const [teamTwoBagNumber, setTeamTwoBagNumber] = useState(1)
-  const [totalRounds, setTotalRounds] = useState(0)
-  const [isFourPlayer, setIsFourPlayer] = useState(true)
+  const [isFourPlayer, setIsFourPlayer] = useState(false)
+  const [activeSide, setActiveSide] = useState(false)
 
   function ScoreRound() {
     if (teamOneRoundScore === 12) {
@@ -44,10 +46,18 @@ export default function GamePage() {
     if (teamOneGamePoints + teamOnesScore >= 21 || teamTwoGamePoints + teamTwosScore >= 21) {
       setIsGameOver(true)
     } else {
-      setRoundNumber(roundNumber + 1)
-      setTotalRounds(totalRounds + 1)
+      setRounds()
     }
     ClearRound()
+  }
+  function setRounds() {
+    if (isFourPlayer) {
+      !activeSide ? setTotalRounds(totalRounds + 1) : setSideTwoRounds(sideTwoRounds + 1)
+      setActiveSide(!activeSide)
+    } else {
+      setTotalRounds(totalRounds + 1)
+    }
+    setRoundNumber(roundNumber + 1)
   }
 
   function ClearRound() {
@@ -68,20 +78,6 @@ export default function GamePage() {
     <>
       <Grid container>
         {/* Team One Card */}
-        <Grid>
-          <PlayerCard
-            isGameOver={isGameOver}
-            setBagDescription={setBagDescription}
-            fourBaggers={teamOneFourBaggers}
-            setScore={setTeamOneRoundScore}
-            roundNumber={roundNumber}
-            gamePoints={teamOneGamePoints}
-            roundPoints={teamOneRoundScore}
-            bagNumber={teamOneBagNumber}
-            setBagNumber={setTeamOneBagNumber}
-            totalRounds={totalRounds}
-          />
-        </Grid>
 
         <Grid>
           {isFourPlayer ? (
@@ -95,11 +91,27 @@ export default function GamePage() {
               roundPoints={teamOneRoundScore}
               bagNumber={teamOneBagNumber}
               setBagNumber={setTeamOneBagNumber}
-              totalRounds={totalRounds}
+              totalRounds={sideTwoRounds}
+              activePlayer={!activeSide}
             />
           ) : (
             <></>
           )}
+        </Grid>
+        <Grid>
+          <PlayerCard
+            isGameOver={isGameOver}
+            setBagDescription={setBagDescription}
+            fourBaggers={teamOneFourBaggers}
+            setScore={setTeamOneRoundScore}
+            roundNumber={roundNumber}
+            gamePoints={teamOneGamePoints}
+            roundPoints={teamOneRoundScore}
+            bagNumber={teamOneBagNumber}
+            setBagNumber={setTeamOneBagNumber}
+            totalRounds={totalRounds}
+            activePlayer={activeSide}
+          />
         </Grid>
 
         {/* CenterCard */}
@@ -120,6 +132,10 @@ export default function GamePage() {
             <Button variant='outlined' size='small' color='error' style={{ marginTop: '20px' }} onClick={() => ResetGame()}>
               New Game
             </Button>
+            <div>
+              <label>Four Player</label>
+              <Switch onChange={() => setIsFourPlayer(!isFourPlayer)} />
+            </div>
           </Card>
           <CenterStatCard />
         </Grid>
@@ -137,6 +153,7 @@ export default function GamePage() {
             bagNumber={teamTwoBagNumber}
             setBagNumber={setTeamTwoBagNumber}
             totalRounds={totalRounds}
+            activePlayer={activeSide}
           />
         </Grid>
 
@@ -152,7 +169,8 @@ export default function GamePage() {
               roundPoints={teamTwoRoundScore}
               bagNumber={teamTwoBagNumber}
               setBagNumber={setTeamTwoBagNumber}
-              totalRounds={totalRounds}
+              totalRounds={sideTwoRounds}
+              activePlayer={!activeSide}
             />
           ) : (
             <></>
