@@ -1,11 +1,11 @@
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft'
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
-import { Button, Card, Grid, Switch } from '@mui/material'
+import { Button, Card, Grid } from '@mui/material'
 import { useState } from 'react'
 import CenterStatCard from './CenterStatCard'
 import PlayerCard from './PlayerCard'
 
-export default function GamePage() {
+export default function GamePage({ isFourPlayer, players }) {
   const [roundNumber, setRoundNumber] = useState(0)
   const [totalRounds, setTotalRounds] = useState(0)
   const [sideTwoRounds, setSideTwoRounds] = useState(0)
@@ -20,7 +20,6 @@ export default function GamePage() {
   const [teamTwoFourBaggers, setTeamTwoFourBaggers] = useState(0)
   const [teamOneBagNumber, setTeamOneBagNumber] = useState(1)
   const [teamTwoBagNumber, setTeamTwoBagNumber] = useState(1)
-  const [isFourPlayer, setIsFourPlayer] = useState(false)
   const [activeSide, setActiveSide] = useState(false)
 
   function ScoreRound() {
@@ -93,6 +92,7 @@ export default function GamePage() {
               setBagNumber={setTeamOneBagNumber}
               totalRounds={sideTwoRounds}
               activePlayer={!activeSide}
+              players={players}
             />
           ) : (
             <></>
@@ -111,6 +111,7 @@ export default function GamePage() {
             setBagNumber={setTeamOneBagNumber}
             totalRounds={totalRounds}
             activePlayer={activeSide}
+            players={players}
           />
         </Grid>
 
@@ -132,10 +133,10 @@ export default function GamePage() {
             <Button variant='outlined' size='small' color='error' style={{ marginTop: '20px' }} onClick={() => ResetGame()}>
               New Game
             </Button>
-            <div>
+            {/* <div>
               <label>Four Player</label>
               <Switch onChange={() => setIsFourPlayer(!isFourPlayer)} />
-            </div>
+            </div> */}
           </Card>
           <CenterStatCard />
         </Grid>
@@ -154,6 +155,7 @@ export default function GamePage() {
             setBagNumber={setTeamTwoBagNumber}
             totalRounds={totalRounds}
             activePlayer={activeSide}
+            players={players}
           />
         </Grid>
 
@@ -171,6 +173,7 @@ export default function GamePage() {
               setBagNumber={setTeamTwoBagNumber}
               totalRounds={sideTwoRounds}
               activePlayer={!activeSide}
+              players={players}
             />
           ) : (
             <></>

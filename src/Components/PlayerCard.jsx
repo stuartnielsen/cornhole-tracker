@@ -1,9 +1,10 @@
-import { Button, Card, Divider, TextField } from '@mui/material'
+import { Button, Card, Divider, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import PlayerStats from './PlayerStats'
 
 const DEFAULT_TEAM = {
+  id: '',
   teamName: 'Team Name',
   score: 0,
   roundScore: 0,
@@ -37,9 +38,11 @@ export default function PlayerCard({
   bagNumber,
   setBagNumber,
   totalRounds,
-  activePlayer
+  activePlayer,
+  players
 }) {
   const [player, setPlayer] = useState(DEFAULT_TEAM)
+  console.log(players)
   // const [history, setHistory] = useState([])
 
   // useEffect(() => {
@@ -139,6 +142,16 @@ export default function PlayerCard({
     <>
       <Card style={{ margin: '10px', padding: '10px', alignItems: 'end', textAlign: 'center', width: '255x', height: '450px' }}>
         <TextField size='small' value={player.teamName} onChange={e => setPlayer(f => ({ ...f, teamName: e.target.value }))} />
+        <FormControl variant='outlined' size='small' fullWidth>
+          <InputLabel id='playerOneLabel'>Player One</InputLabel>
+          <Select labelId='playerOneLabel' value={player} label='name' onChange={e => console.log(e.target.value)}>
+            {players.map(x => (
+              <MenuItem value={x} key={x.id}>
+                {x.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <h1>{player.score}</h1>
         <h2>{!activePlayer ? roundPoints : 0}</h2>
         {isGameOver ? (
