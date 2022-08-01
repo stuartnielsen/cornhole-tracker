@@ -19,6 +19,7 @@ export default function GamePage() {
   const [teamOneBagNumber, setTeamOneBagNumber] = useState(1)
   const [teamTwoBagNumber, setTeamTwoBagNumber] = useState(1)
   const [totalRounds, setTotalRounds] = useState(0)
+  const [isFourPlayer, setIsFourPlayer] = useState(true)
 
   function ScoreRound() {
     if (teamOneRoundScore === 12) {
@@ -82,6 +83,25 @@ export default function GamePage() {
           />
         </Grid>
 
+        <Grid>
+          {isFourPlayer ? (
+            <PlayerCard
+              isGameOver={isGameOver}
+              setBagDescription={setBagDescription}
+              fourBaggers={teamOneFourBaggers}
+              setScore={setTeamOneRoundScore}
+              roundNumber={roundNumber}
+              gamePoints={teamOneGamePoints}
+              roundPoints={teamOneRoundScore}
+              bagNumber={teamOneBagNumber}
+              setBagNumber={setTeamOneBagNumber}
+              totalRounds={totalRounds}
+            />
+          ) : (
+            <></>
+          )}
+        </Grid>
+
         {/* CenterCard */}
         <Grid>
           <Card style={{ margin: '10px', padding: '10px 10px', textAlign: 'center', width: '200px', height: '450px' }}>
@@ -119,6 +139,25 @@ export default function GamePage() {
             totalRounds={totalRounds}
           />
         </Grid>
+
+        <Grid>
+          {isFourPlayer ? (
+            <PlayerCard
+              isGameOver={isGameOver}
+              setBagDescription={setBagDescription}
+              fourBaggers={teamTwoFourBaggers}
+              setScore={setTeamTwoRoundScore}
+              roundNumber={roundNumber}
+              gamePoints={teamTwoGamePoints}
+              roundPoints={teamTwoRoundScore}
+              bagNumber={teamTwoBagNumber}
+              setBagNumber={setTeamTwoBagNumber}
+              totalRounds={totalRounds}
+            />
+          ) : (
+            <></>
+          )}
+        </Grid>
       </Grid>
     </>
   )
@@ -127,6 +166,8 @@ export default function GamePage() {
 Export Stats
 avg. rounds per game
 4 player game
+  shared:
+    4 baggers
+    rounds
 Games Played/won tracker
-shot type percentage
 */
