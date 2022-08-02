@@ -1,6 +1,30 @@
-import { Button, Card, FormControl, InputLabel, MenuItem, Select, Switch } from '@mui/material'
+import { Button, Card, FormControl, InputLabel, MenuItem, Select, Switch, TextField } from '@mui/material'
 import { useState } from 'react'
 import GamePage from './GamePage'
+
+const DEFAULT_TEAM = {
+  id: '',
+  teamName: 'New Player',
+  score: 0,
+  roundScore: 0,
+  bagnumber: 1,
+  bag1: '',
+  bag2: '',
+  bag3: '',
+  bag4: '',
+  totalPoints: 0,
+  pprAvg: 0,
+  fourBaggers: 0,
+  bagsThrown: 0,
+  slide: 0,
+  airmail: 0,
+  roll: 0,
+  block: 0,
+  push: 0,
+  woody: 0,
+  bully: 0,
+  foul: 0
+}
 
 export default function SetupGame() {
   const [file, setFile] = useState()
@@ -11,6 +35,7 @@ export default function SetupGame() {
   const [playerTwo, setPlayerTwo] = useState()
   const [playerThree, setPlayerThree] = useState()
   const [playerFour, setPlayerFour] = useState()
+  const [newPlayer, setNewPlayer] = useState(DEFAULT_TEAM)
 
   const fileReader = new FileReader()
 
@@ -19,8 +44,11 @@ export default function SetupGame() {
   }
 
   const csvFileToArray = string => {
-    const csvHeader = string.slice(0, string.indexOf('\n')).split(',')
-    const csvRows = string.slice(string.indexOf('\n') + 1).split('\n')
+    const csvHeader = string.slice(0, string.indexOf('\n')).replaceAll('"', '').split(',')
+    const csvRows = string
+      .slice(string.indexOf('\n') + 1)
+      .replaceAll('"', '')
+      .split('\n')
 
     const player = csvRows.map(i => {
       const values = i.split(',')
@@ -30,8 +58,6 @@ export default function SetupGame() {
       }, {})
       return headers
     })
-    // setStartGame(true)
-    console.log(player)
     setPlayersStats(player)
   }
 
@@ -50,6 +76,11 @@ export default function SetupGame() {
 
   //   const headerKeys = Object.keys(Object.assign({}, ...playersStats))
 
+  function addPlayer() {
+    setPlayersStats(curr => [...curr, newPlayer])
+    console.log(playersStats)
+  }
+
   return (
     <>
       {startGame ? (
@@ -59,8 +90,22 @@ export default function SetupGame() {
           history={playersStats}
         />
       ) : (
-        <Card style={{ textAlign: 'center', width: '300px' }}>
-          <h1>REACTJS CSV IMPORT</h1>
+        <Card style={{ textAlign: 'center', width: '400px' }}>
+          <h1>Create New Game</h1>
+
+          <form>
+            <input type={'file'} id={'csvFileInput'} accept={'.csv'} onChange={handleOnChange} />
+            <button
+              onClick={e => {
+                handleOnSubmit(e)
+              }}>
+              Load Players
+            </button>
+          </form>
+          <TextField value={newPlayer.teamName} onChange={e => setNewPlayer(f => ({ ...f, teamName: e.target.value }))} />
+          <Button variant='outlined' onClick={() => addPlayer()}>
+            New Player
+          </Button>
 
           <div>
             <label>Four Players</label>
@@ -137,17 +182,6 @@ export default function SetupGame() {
               <></>
             )}
           </div>
-          <form>
-            <input type={'file'} id={'csvFileInput'} accept={'.csv'} onChange={handleOnChange} />
-            <div>
-              <button
-                onClick={e => {
-                  handleOnSubmit(e)
-                }}>
-                Import Stats
-              </button>
-            </div>
-          </form>
 
           <br />
 

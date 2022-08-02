@@ -195,11 +195,8 @@ export default function GamePage({ isFourPlayer, players, history }) {
   )
 }
 /*TODO: 
-Export Stats
+total rounds and fourbaggers after upload are not set properly
+off by one for export on four baggers if it ends the game 
 avg. rounds per game
-4 player game
-  shared:
-    4 baggers
-    rounds
 Games Played/won tracker
 */
