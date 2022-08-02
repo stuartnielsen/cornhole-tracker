@@ -122,10 +122,6 @@ export default function PlayerCard({
         case 'Foul':
           setPlayer(s => ({ ...s, foul: player.foul + 1 }))
           break
-        case 'And One':
-          setPlayer(s => ({ ...s, foul: player.foul + 1 }))
-          AddPlayerPoints(3)
-          break
         default:
       }
     }
@@ -147,10 +143,13 @@ export default function PlayerCard({
       setBagNumber(bagNumber + 1)
     }
   }
+  if (isGameOver) {
+    history[index] = player
+  }
 
   return (
     <>
-      {/* {console.log(players)} */}
+      {console.log(player)}
       <Card style={{ margin: '10px', padding: '10px', alignItems: 'end', textAlign: 'center', width: '255x', height: '450px' }}>
         <h2>{history[index].teamName}</h2>
         {/* <TextField size='small' value={player.teamName} onChange={e => setPlayer(f => ({ ...f, teamName: e.target.value }))} /> */}
@@ -262,16 +261,6 @@ export default function PlayerCard({
                 onMouseOver={() => setBagDescription('A bag that pushes or “bullies” your opponents bag out of the danger zone')}
                 onMouseLeave={() => setBagDescription('')}>
                 Bully
-              </Button>
-              <Button
-                onClick={() => AddBagTeamOne('And One')}
-                style={{ width: '75px', margin: '10px 0px 0px 0px', whiteSpace: 'nowrap' }}
-                color='error'
-                variant='outlined'
-                disabled={activePlayer}
-                onMouseOver={() => setBagDescription('A bag that goes in the hole and knocks an opponents bag off the board')}
-                onMouseLeave={() => setBagDescription('')}>
-                And One
               </Button>
             </div>
             <Divider style={{ margin: '10px -10px -10px -10px' }} />

@@ -31,6 +31,7 @@ export default function SetupGame() {
       return headers
     })
     // setStartGame(true)
+    console.log(player)
     setPlayersStats(player)
   }
 
