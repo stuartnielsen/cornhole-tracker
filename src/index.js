@@ -1,6 +1,5 @@
 import React from 'react'
 import reactDom from 'react-dom'
-import GamePage from './Components/GamePage'
 import SetupGame from './Components/SetupGame'
 import './index.css'
 

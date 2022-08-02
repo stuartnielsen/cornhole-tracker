@@ -5,7 +5,7 @@ import { useState } from 'react'
 import CenterStatCard from './CenterStatCard'
 import PlayerCard from './PlayerCard'
 
-export default function GamePage({ isFourPlayer, players }) {
+export default function GamePage({ isFourPlayer, players, history }) {
   const [roundNumber, setRoundNumber] = useState(0)
   const [totalRounds, setTotalRounds] = useState(0)
   const [sideTwoRounds, setSideTwoRounds] = useState(0)
@@ -75,6 +75,7 @@ export default function GamePage({ isFourPlayer, players }) {
   }
   return (
     <>
+      {console.log(players)}
       <Grid container>
         {/* Team One Card */}
 
@@ -92,7 +93,8 @@ export default function GamePage({ isFourPlayer, players }) {
               setBagNumber={setTeamOneBagNumber}
               totalRounds={sideTwoRounds}
               activePlayer={!activeSide}
-              players={players}
+              players={players[2]}
+              history={history}
             />
           ) : (
             <></>
@@ -111,7 +113,8 @@ export default function GamePage({ isFourPlayer, players }) {
             setBagNumber={setTeamOneBagNumber}
             totalRounds={totalRounds}
             activePlayer={activeSide}
-            players={players}
+            players={players[0]}
+            history={history}
           />
         </Grid>
 
@@ -155,7 +158,8 @@ export default function GamePage({ isFourPlayer, players }) {
             setBagNumber={setTeamTwoBagNumber}
             totalRounds={totalRounds}
             activePlayer={activeSide}
-            players={players}
+            players={players[1]}
+            history={history}
           />
         </Grid>
 
@@ -173,7 +177,8 @@ export default function GamePage({ isFourPlayer, players }) {
               setBagNumber={setTeamTwoBagNumber}
               totalRounds={sideTwoRounds}
               activePlayer={!activeSide}
-              players={players}
+              players={players[3]}
+              history={history}
             />
           ) : (
             <></>

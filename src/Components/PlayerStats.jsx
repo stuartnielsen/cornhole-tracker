@@ -8,7 +8,7 @@ export default function PlayerStats({ player, totalRounds }) {
         <h5 style={{ backgroundColor: 'lightGrey', marginBottom: '-10px' }}>
           {totalRounds} / {player.totalPoints}
         </h5>
-        <h5 style={{ marginBottom: '-10px' }}>{player.pprAvg.toFixed(2)}</h5>
+        <h5 style={{ marginBottom: '-10px' }}>{player.pprAvg}</h5>
         <h5 style={{ backgroundColor: 'lightGrey', marginBottom: '-10px' }}>{player.fourBaggers}</h5>
         <h5 style={{ marginBottom: '-10px' }}>{player.bagsThrown}</h5>
         <h5 style={{ backgroundColor: 'lightGrey', marginBottom: '-10px' }}>
@@ -24,13 +24,13 @@ export default function PlayerStats({ player, totalRounds }) {
           {player.block} / {((player.block / player.bagsThrown) * 100).toFixed(2)}
         </h5>
         <h5 style={{ backgroundColor: 'lightGrey', marginBottom: '-10px' }}>
-          {player.push} / {((player.push / player.bagsThrown) * 100).toFixed(2)}
+          {player.push * 1} / {((player.push / player.bagsThrown) * 100).toFixed(2)}
         </h5>
         <h5 style={{ marginBottom: '-10px' }}>
           {player.woody} / {((player.woody / player.bagsThrown) * 100).toFixed(2)}
         </h5>
         <h5 style={{ backgroundColor: 'lightGrey', marginBottom: '-10px' }}>
-          {player.bully} / {((player.bully / player.bagsThrown) * 100).toFixed(2)}
+          {parseInt(player.bully)} / {((player.bully / player.bagsThrown) * 100).toFixed(2)}
         </h5>
         <h5 style={{ marginBottom: '-10px' }}>
           {player.foul}/ {((player.foul / player.bagsThrown) * 100).toFixed(2)}
