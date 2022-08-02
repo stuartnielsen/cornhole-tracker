@@ -4,6 +4,7 @@ import { Button, Card, Grid } from '@mui/material'
 import { useState } from 'react'
 import CenterStatCard from './CenterStatCard'
 import PlayerCard from './PlayerCard'
+import { CSVLink } from 'react-csv'
 
 export default function GamePage({ isFourPlayer, players, history }) {
   const [roundNumber, setRoundNumber] = useState(0)
@@ -73,6 +74,7 @@ export default function GamePage({ isFourPlayer, players, history }) {
     setIsGameOver(false)
     setRoundNumber(0)
   }
+
   return (
     <>
       {console.log(players)}
@@ -136,6 +138,7 @@ export default function GamePage({ isFourPlayer, players, history }) {
             <Button variant='outlined' size='small' color='error' style={{ marginTop: '20px' }} onClick={() => ResetGame()}>
               New Game
             </Button>
+            <Button>Save Stats</Button>
             {/* <div>
               <label>Four Player</label>
               <Switch onChange={() => setIsFourPlayer(!isFourPlayer)} />
@@ -185,6 +188,9 @@ export default function GamePage({ isFourPlayer, players, history }) {
           )}
         </Grid>
       </Grid>
+      <CSVLink data={history} filename={'testingHistory'}>
+        Download me
+      </CSVLink>
     </>
   )
 }
