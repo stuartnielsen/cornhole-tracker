@@ -122,6 +122,7 @@ export default function SetupGame() {
               size='small'
               value={newPlayer.teamName}
               onChange={e => setNewPlayer(f => ({ ...f, teamName: e.target.value }))}
+              variant='outlined'
               label='New player'
             />
             <Button variant='outlined' onClick={() => addPlayer()} style={{ marginLeft: '10px', height: '40px' }}>
@@ -141,7 +142,7 @@ export default function SetupGame() {
               <Select
                 labelId='playerOneLabel'
                 value={playerOne ? playerOne : ''}
-                label='name'
+                label={isFourPlayer ? 'Side One' : 'Player One'}
                 onChange={e => setPlayerOne(e.target.value)}>
                 {playersStats.map(x => (
                   <MenuItem value={x.teamName} key={x.teamName}>
@@ -152,11 +153,11 @@ export default function SetupGame() {
             </FormControl>
             {isFourPlayer ? (
               <FormControl variant='outlined' size='small' style={{ width: '300px', marginTop: '10px' }}>
-                <InputLabel id='playerTwoLabel'> Side Two</InputLabel>
+                <InputLabel id='playerTwoLabel'>Side Two</InputLabel>
                 <Select
                   labelId='playerTwoLabel'
                   value={playerTwo ? playerTwo : ''}
-                  label='Player'
+                  label='Side Two'
                   onChange={e => setPlayerTwo(e.target.value)}>
                   {playersStats.map(x => (
                     <MenuItem value={x.teamName} key={x.teamName}>
@@ -176,7 +177,7 @@ export default function SetupGame() {
               <Select
                 labelId='playerThreeLabel'
                 value={playerThree ? playerThree : ''}
-                label='name'
+                label={isFourPlayer ? 'Side One' : 'Player Two'}
                 onChange={e => setPlayerThree(e.target.value)}>
                 {playersStats.map(x => (
                   <MenuItem value={x.teamName} key={x.teamName}>
@@ -187,11 +188,11 @@ export default function SetupGame() {
             </FormControl>
             {isFourPlayer ? (
               <FormControl variant='outlined' size='small' style={{ width: '300px', marginTop: '10px' }}>
-                <InputLabel id='playerFourLabel'> Side Two</InputLabel>
+                <InputLabel id='playerFourLabel'>Side Two</InputLabel>
                 <Select
                   labelId='playerFourLabel'
                   value={playerFour ? playerFour : ''}
-                  label='name'
+                  label='Side Two'
                   onChange={e => setPlayerFour(e.target.value)}>
                   {playersStats.map(x => (
                     <MenuItem value={x.teamName} key={x.teamName}>
