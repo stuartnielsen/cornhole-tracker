@@ -1,4 +1,5 @@
 import { Button, Card, FormControl, InputLabel, MenuItem, Select, Switch, TextField } from '@mui/material'
+import { useEffect, useMemo } from 'react'
 import { useState } from 'react'
 import GamePage from './GamePage'
 
@@ -30,7 +31,7 @@ export default function SetupGame() {
   const [playerFour, setPlayerFour] = useState()
   const [newPlayer, setNewPlayer] = useState(DEFAULT_TEAM)
 
-  const fileReader = new FileReader()
+  const fileReader = useMemo(() => new FileReader(), [])
 
   const handleOnChange = e => {
     setFile(e.target.files[0])
@@ -53,10 +54,7 @@ export default function SetupGame() {
     })
     setPlayersStats(player)
   }
-
-  const handleOnSubmit = e => {
-    e.preventDefault()
-
+  useEffect(() => {
     if (file) {
       fileReader.onload = function (event) {
         const text = event.target.result
@@ -65,7 +63,20 @@ export default function SetupGame() {
 
       fileReader.readAsText(file)
     }
-  }
+  }, [file, fileReader])
+
+  //   const handleOnSubmit = e => {
+  //     e.preventDefault()
+
+  //     if (file) {
+  //       fileReader.onload = function (event) {
+  //         const text = event.target.result
+  //         csvFileToArray(text)
+  //       }
+
+  //       fileReader.readAsText(file)
+  //     }
+  //   }
 
   //   const headerKeys = Object.keys(Object.assign({}, ...playersStats))
 
@@ -74,39 +85,57 @@ export default function SetupGame() {
   }
 
   return (
-    <>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minWidth: '350px'
+      }}>
       {startGame ? (
-        <GamePage
-          isFourPlayer={isFourPlayer}
-          players={isFourPlayer ? [playerOne, playerThree, playerTwo, playerFour] : [playerOne, playerThree]}
-          history={playersStats}
-        />
+        <>
+          <GamePage
+            isFourPlayer={isFourPlayer}
+            players={isFourPlayer ? [playerOne, playerThree, playerTwo, playerFour] : [playerOne, playerThree]}
+            history={playersStats}
+            setStartGame={setStartGame}
+          />
+        </>
       ) : (
         <Card style={{ textAlign: 'center', width: '400px' }}>
           <h1>Create New Game</h1>
-
-          <form>
-            <input type={'file'} id={'csvFileInput'} accept={'.csv'} onChange={handleOnChange} />
-            <button
-              onClick={e => {
-                handleOnSubmit(e)
-              }}>
-              Load Players
-            </button>
-          </form>
-          <TextField value={newPlayer.teamName} onChange={e => setNewPlayer(f => ({ ...f, teamName: e.target.value }))} />
-          <Button variant='outlined' onClick={() => addPlayer()}>
-            New Player
-          </Button>
-
+          {playersStats.length > 0 ? (
+            <></>
+          ) : (
+            <form style={{ marginBottom: '20px' }}>
+              <input type={'file'} id={'csvFileInput'} accept={'.csv'} onChange={handleOnChange} />
+              {/* <button
+                onClick={e => {
+                  handleOnSubmit(e)
+                }}>
+                Load Players
+              </button> */}
+            </form>
+          )}
           <div>
+            <TextField
+              size='small'
+              value={newPlayer.teamName}
+              onChange={e => setNewPlayer(f => ({ ...f, teamName: e.target.value }))}
+            />
+            <Button variant='outlined' onClick={() => addPlayer()} style={{ marginLeft: '10px', height: '40px' }}>
+              Add
+            </Button>
+          </div>
+
+          <div style={{ marginTop: '20px' }}>
             <label>Four Players</label>
             <Switch onChange={() => setIsFourPlayer(!isFourPlayer)} />
           </div>
           <div>
             {/* Team one */}
             <h4>Team One</h4>
-            <FormControl variant='outlined' size='small' fullWidth>
+            <FormControl variant='outlined' size='small' style={{ width: '300px' }}>
               <InputLabel id='playerOneLabel'>{isFourPlayer ? 'Side One' : 'Player One'}</InputLabel>
               <Select
                 labelId='playerOneLabel'
@@ -121,7 +150,7 @@ export default function SetupGame() {
               </Select>
             </FormControl>
             {isFourPlayer ? (
-              <FormControl variant='outlined' size='small' fullWidth>
+              <FormControl variant='outlined' size='small' style={{ width: '300px', marginTop: '10px' }}>
                 <InputLabel id='playerTwoLabel'> Side Two</InputLabel>
                 <Select
                   labelId='playerTwoLabel'
@@ -141,7 +170,7 @@ export default function SetupGame() {
 
             {/* Team Two */}
             <h4>Team Two</h4>
-            <FormControl variant='outlined' size='small' fullWidth>
+            <FormControl variant='outlined' size='small' style={{ width: '300px' }}>
               <InputLabel id='playerThreeLabel'>{isFourPlayer ? 'Side One' : 'Player Two'}</InputLabel>
               <Select
                 labelId='playerThreeLabel'
@@ -156,7 +185,7 @@ export default function SetupGame() {
               </Select>
             </FormControl>
             {isFourPlayer ? (
-              <FormControl variant='outlined' size='small' fullWidth>
+              <FormControl variant='outlined' size='small' style={{ width: '300px', marginTop: '10px' }}>
                 <InputLabel id='playerFourLabel'> Side Two</InputLabel>
                 <Select
                   labelId='playerFourLabel'
@@ -178,11 +207,11 @@ export default function SetupGame() {
           <br />
 
           {/* <PlayerTableStats headers={headerKeys} rows={playersStats} /> */}
-          <Button variant='outlined' onClick={() => setStartGame(true)}>
+          <Button variant='outlined' onClick={() => setStartGame(true)} style={{ marginBottom: '20px' }}>
             Start Game
           </Button>
         </Card>
       )}
-    </>
+    </div>
   )
 }

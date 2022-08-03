@@ -6,7 +6,7 @@ import CenterStatCard from './CenterStatCard'
 import PlayerCard from './PlayerCard'
 import { CSVLink } from 'react-csv'
 
-export default function GamePage({ isFourPlayer, players, history }) {
+export default function GamePage({ isFourPlayer, players, history, setStartGame }) {
   const [roundNumber, setRoundNumber] = useState(0)
   const [totalRounds, setTotalRounds] = useState(0)
   const [sideTwoRounds, setSideTwoRounds] = useState(0)
@@ -141,7 +141,25 @@ export default function GamePage({ isFourPlayer, players, history }) {
             <Button variant='outlined' size='small' color='error' style={{ marginTop: '20px' }} onClick={() => ResetGame()}>
               New Game
             </Button>
-            <Button>Save Stats</Button>
+            {isGameOver ? (
+              <>
+                <div>
+                  <CSVLink
+                    className='MuiButton-root MuiButton-outlined MuiButton-outlinedSuccess MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-sxix9q-MuiButtonBase-root-MuiButton-root'
+                    data={history}
+                    filename={'CornholePlayerStats'}>
+                    Save Stats
+                  </CSVLink>
+                </div>
+                <div>
+                  <Button variant='outlined' onClick={() => setStartGame(false)}>
+                    Change Players
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
           </Card>
           <CenterStatCard />
         </Grid>
@@ -187,13 +205,14 @@ export default function GamePage({ isFourPlayer, players, history }) {
           )}
         </Grid>
       </Grid>
-      <CSVLink data={history} filename={'testingHistory'}>
-        Download me
-      </CSVLink>
     </>
   )
 }
 /*TODO:  
+Feature: Start game page styles
+Feature: Remove new player name on click 
+Feature: Style buttons on game page
+Feature: Reset game
 Feature: avg. rounds per game
 Feature: Games Played/won tracker
 Feature: Single Player
