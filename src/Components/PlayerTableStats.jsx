@@ -1,5 +1,4 @@
 export default function PlayerTableStats({ headers, rows }) {
-  console.log(rows)
   return (
     <>
       <table>

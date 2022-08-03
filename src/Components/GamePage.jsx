@@ -24,6 +24,10 @@ export default function GamePage({ isFourPlayer, players, history }) {
   const [activeSide, setActiveSide] = useState(false)
 
   function ScoreRound() {
+    for (let i = 0; i < players.length; i++) {
+      const index = history.findIndex(item => item.teamName === players[i])
+      history[index].totalRounds += 1
+    }
     if (teamOneRoundScore === 12) {
       setTeamOneFourBaggers(teamOneFourBaggers + 1)
     }
@@ -77,7 +81,6 @@ export default function GamePage({ isFourPlayer, players, history }) {
 
   return (
     <>
-      {console.log(players)}
       <Grid container>
         {/* Team One Card */}
 
@@ -139,10 +142,6 @@ export default function GamePage({ isFourPlayer, players, history }) {
               New Game
             </Button>
             <Button>Save Stats</Button>
-            {/* <div>
-              <label>Four Player</label>
-              <Switch onChange={() => setIsFourPlayer(!isFourPlayer)} />
-            </div> */}
           </Card>
           <CenterStatCard />
         </Grid>
@@ -194,9 +193,8 @@ export default function GamePage({ isFourPlayer, players, history }) {
     </>
   )
 }
-/*TODO: 
-total rounds and fourbaggers after upload are not set properly
-off by one for export on four baggers if it ends the game 
-avg. rounds per game
-Games Played/won tracker
+/*TODO:  
+Feature: avg. rounds per game
+Feature: Games Played/won tracker
+Feature: Single Player
 */

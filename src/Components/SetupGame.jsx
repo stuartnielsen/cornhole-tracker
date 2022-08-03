@@ -3,16 +3,9 @@ import { useState } from 'react'
 import GamePage from './GamePage'
 
 const DEFAULT_TEAM = {
-  id: '',
   teamName: 'New Player',
-  score: 0,
-  roundScore: 0,
-  bagnumber: 1,
-  bag1: '',
-  bag2: '',
-  bag3: '',
-  bag4: '',
   totalPoints: 0,
+  totalRounds: 0,
   pprAvg: 0,
   fourBaggers: 0,
   bagsThrown: 0,
@@ -78,7 +71,6 @@ export default function SetupGame() {
 
   function addPlayer() {
     setPlayersStats(curr => [...curr, newPlayer])
-    console.log(playersStats)
   }
 
   return (

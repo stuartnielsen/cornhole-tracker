@@ -2,30 +2,6 @@ import { Button, Card, Divider } from '@mui/material'
 import { useEffect, useState } from 'react'
 import PlayerStats from './PlayerStats'
 
-// const DEFAULT_TEAM = {
-//   id: '',
-//   teamName: 'Team Name',
-//   score: 0,
-//   roundScore: 0,
-//   bagnumber: 1,
-//   bag1: '',
-//   bag2: '',
-//   bag3: '',
-//   bag4: '',
-//   totalPoints: 0,
-//   pprAvg: 0,
-//   fourBaggers: 0,
-//   bagsThrown: 0,
-//   slide: 0,
-//   airmail: 0,
-//   roll: 0,
-//   block: 0,
-//   push: 0,
-//   woody: 0,
-//   bully: 0,
-//   foul: 0
-// }
-
 export default function PlayerCard({
   isGameOver,
   setBagDescription,
@@ -45,14 +21,7 @@ export default function PlayerCard({
   const [player, setPlayer] = useState({
     id: history[index].id,
     teamName: history[index].teamName,
-    // score: parseInt(history[index].score),
-    // roundScore: parseInt(history[index].roundScore),
-    // bagnumber: parseInt(history[index].bagNumber),
     totalRounds: parseInt(history[index].totalRounds),
-    // bag1: '',
-    // bag2: '',
-    // bag3: '',
-    // bag4: '',
     totalPoints: parseInt(history[index].totalPoints),
     pprAvg: parseInt(history[index].pprAvg),
     fourBaggers: parseInt(history[index].fourBaggers),
@@ -145,25 +114,26 @@ export default function PlayerCard({
     }
   }
   if (isGameOver) {
-    history[index] = player
+    history[index].totalPoints = player.totalPoints
+    history[index].totalRounds = totalRounds
+    history[index].pprAvg = player.pprAvg
+    history[index].fourBaggers = fourBaggers
+    history[index].bagsThrown = player.bagsThrown
+    history[index].slide = player.slide
+    history[index].airmail = player.airmail
+    history[index].roll = player.roll
+    history[index].block = player.block
+    history[index].push = player.push
+    history[index].woody = player.woody
+    history[index].bully = player.bully
+    history[index].foul = player.foul
+    history[index].totalPoints = player.totalPoints
   }
 
   return (
     <>
-      {console.log(player)}
       <Card style={{ margin: '10px', padding: '10px', alignItems: 'end', textAlign: 'center', width: '255x', height: '450px' }}>
         <h2>{history[index].teamName}</h2>
-        {/* <TextField size='small' value={player.teamName} onChange={e => setPlayer(f => ({ ...f, teamName: e.target.value }))} /> */}
-        {/* <FormControl variant='outlined' size='small' fullWidth>
-          <InputLabel id='playerOneLabel'>Player One</InputLabel>
-          <Select labelId='playerOneLabel' value={player} label='name' onChange={e => console.log(e.target.value)}>
-            {history.map(x => (
-              <MenuItem value={x} key={x.id}>
-                {x.teamName}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl> */}
         <h1>{player.score}</h1>
         <h2>{!activePlayer ? roundPoints : 0}</h2>
         {isGameOver ? (
