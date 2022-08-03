@@ -1,10 +1,9 @@
 import { Button, Card, FormControl, InputLabel, MenuItem, Select, Switch, TextField } from '@mui/material'
-import { useEffect, useMemo } from 'react'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import GamePage from './GamePage'
 
 const DEFAULT_TEAM = {
-  teamName: 'New Player',
+  teamName: '',
   totalPoints: 0,
   totalRounds: 0,
   pprAvg: 0,
@@ -82,6 +81,7 @@ export default function SetupGame() {
 
   function addPlayer() {
     setPlayersStats(curr => [...curr, newPlayer])
+    setNewPlayer(s => ({ ...s, teamName: '' }))
   }
 
   return (
@@ -122,6 +122,7 @@ export default function SetupGame() {
               size='small'
               value={newPlayer.teamName}
               onChange={e => setNewPlayer(f => ({ ...f, teamName: e.target.value }))}
+              label='New player'
             />
             <Button variant='outlined' onClick={() => addPlayer()} style={{ marginLeft: '10px', height: '40px' }}>
               Add

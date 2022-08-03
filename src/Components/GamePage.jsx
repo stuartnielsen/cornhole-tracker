@@ -209,8 +209,6 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
   )
 }
 /*TODO:  
-Feature: Start game page styles
-Feature: Remove new player name on click 
 Feature: Style buttons on game page
 Feature: Reset game
 Feature: avg. rounds per game
