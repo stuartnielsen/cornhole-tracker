@@ -118,7 +118,7 @@ export default function PlayerCard({
     history[index].totalRounds = totalRounds
     history[index].pprAvg = player.pprAvg
     history[index].fourBaggers = fourBaggers
-    history[index].bagsThrown = player.bagsThrown
+    history[index].bagsThrown = player.bagsThrown + 1
     history[index].slide = player.slide
     history[index].airmail = player.airmail
     history[index].roll = player.roll
@@ -132,7 +132,7 @@ export default function PlayerCard({
 
   return (
     <>
-      <Card style={{ margin: '10px', padding: '10px', alignItems: 'end', textAlign: 'center', width: '255x', height: '450px' }}>
+      <Card style={{ margin: '10px', padding: '10px', alignItems: 'end', textAlign: 'center', width: '280px', height: '450px' }}>
         <h2>{history[index].teamName}</h2>
         <h1>{player.score}</h1>
         <h2>{!activePlayer ? roundPoints : 0}</h2>
