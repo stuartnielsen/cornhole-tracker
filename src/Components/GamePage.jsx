@@ -6,7 +6,7 @@ import CenterStatCard from './CenterStatCard'
 import PlayerCard from './PlayerCard'
 import { CSVLink } from 'react-csv'
 
-export default function GamePage({ isFourPlayer, players, history, setStartGame }) {
+export default function GamePage({ isFourPlayer, isSinglePlayer, players, history, setStartGame }) {
   const [roundNumber, setRoundNumber] = useState(0)
   const [totalRounds, setTotalRounds] = useState(0)
   const [sideTwoRounds, setSideTwoRounds] = useState(0)
@@ -166,21 +166,25 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
 
         {/* Team Two card */}
         <Grid>
-          <PlayerCard
-            isGameOver={isGameOver}
-            setBagDescription={setBagDescription}
-            fourBaggers={teamTwoFourBaggers}
-            setScore={setTeamTwoRoundScore}
-            roundNumber={roundNumber}
-            gamePoints={teamTwoGamePoints}
-            roundPoints={teamTwoRoundScore}
-            bagNumber={teamTwoBagNumber}
-            setBagNumber={setTeamTwoBagNumber}
-            totalRounds={totalRounds}
-            activePlayer={activeSide}
-            players={players[1]}
-            history={history}
-          />
+          {isSinglePlayer ? (
+            <></>
+          ) : (
+            <PlayerCard
+              isGameOver={isGameOver}
+              setBagDescription={setBagDescription}
+              fourBaggers={teamTwoFourBaggers}
+              setScore={setTeamTwoRoundScore}
+              roundNumber={roundNumber}
+              gamePoints={teamTwoGamePoints}
+              roundPoints={teamTwoRoundScore}
+              bagNumber={teamTwoBagNumber}
+              setBagNumber={setTeamTwoBagNumber}
+              totalRounds={totalRounds}
+              activePlayer={activeSide}
+              players={players[1]}
+              history={history}
+            />
+          )}
         </Grid>
 
         <Grid>

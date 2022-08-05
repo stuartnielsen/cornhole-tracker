@@ -39,7 +39,7 @@ export default function PlayerCard({
     if (totalRounds !== 0) {
       setPlayer(s => ({
         ...s,
-        pprAvg: player.totalPoints / totalRounds
+        pprAvg: player.totalPoints / (totalRounds + 1)
       }))
     }
   }, [player.totalPoints, totalRounds])
@@ -115,10 +115,9 @@ export default function PlayerCard({
   }
   if (isGameOver) {
     history[index].totalPoints = player.totalPoints
-    history[index].totalRounds = totalRounds
     history[index].pprAvg = player.pprAvg
     history[index].fourBaggers = fourBaggers
-    history[index].bagsThrown = player.bagsThrown + 1
+    history[index].bagsThrown = player.bagsThrown
     history[index].slide = player.slide
     history[index].airmail = player.airmail
     history[index].roll = player.roll
@@ -127,7 +126,6 @@ export default function PlayerCard({
     history[index].woody = player.woody
     history[index].bully = player.bully
     history[index].foul = player.foul
-    history[index].totalPoints = player.totalPoints
   }
 
   return (

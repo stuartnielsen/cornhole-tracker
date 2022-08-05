@@ -1,4 +1,17 @@
-import { Button, Card, FormControl, InputLabel, MenuItem, Select, Switch, TextField } from '@mui/material'
+import {
+  Button,
+  Card,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  Switch,
+  TextField
+} from '@mui/material'
 import { useEffect, useMemo, useState } from 'react'
 import GamePage from './GamePage'
 
@@ -24,6 +37,7 @@ export default function SetupGame() {
   const [playersStats, setPlayersStats] = useState([])
   const [startGame, setStartGame] = useState(false)
   const [isFourPlayer, setIsFourPlayer] = useState(false)
+  const [isSinglePlayer, setIsSinglePlayer] = useState(false)
   const [playerOne, setPlayerOne] = useState()
   const [playerTwo, setPlayerTwo] = useState()
   const [playerThree, setPlayerThree] = useState()
@@ -83,6 +97,10 @@ export default function SetupGame() {
     setPlayersStats(curr => [...curr, newPlayer])
     setNewPlayer(s => ({ ...s, teamName: '' }))
   }
+  function playerNumber(onePlayer, fourPlayer) {
+    setIsFourPlayer(fourPlayer)
+    setIsSinglePlayer(onePlayer)
+  }
 
   return (
     <div
@@ -96,7 +114,14 @@ export default function SetupGame() {
         <>
           <GamePage
             isFourPlayer={isFourPlayer}
-            players={isFourPlayer ? [playerOne, playerThree, playerTwo, playerFour] : [playerOne, playerThree]}
+            isSinglePlayer={isSinglePlayer}
+            players={
+              isFourPlayer
+                ? [playerOne, playerThree, playerTwo, playerFour]
+                : isSinglePlayer
+                ? [playerOne]
+                : [playerOne, playerThree]
+            }
             history={playersStats}
             setStartGame={setStartGame}
           />
@@ -128,6 +153,31 @@ export default function SetupGame() {
             <Button variant='outlined' onClick={() => addPlayer()} style={{ marginLeft: '10px', height: '40px' }}>
               Add
             </Button>
+          </div>
+          <div>
+            <FormControl>
+              <FormLabel>Player #</FormLabel>
+              <RadioGroup row name='radio-buttons-group' defaultValue='2 Player'>
+                <FormControlLabel
+                  value='1 Player'
+                  control={<Radio />}
+                  label='1 Player'
+                  onChange={() => playerNumber(true, false)}
+                />
+                <FormControlLabel
+                  value='2 Player'
+                  control={<Radio />}
+                  label='2 Player'
+                  onChange={() => playerNumber(false, false)}
+                />
+                <FormControlLabel
+                  value='4 Player'
+                  control={<Radio />}
+                  label='4 Player'
+                  onChange={() => playerNumber(false, true)}
+                />
+              </RadioGroup>
+            </FormControl>
           </div>
 
           <div style={{ marginTop: '20px' }}>
@@ -171,21 +221,27 @@ export default function SetupGame() {
             )}
 
             {/* Team Two */}
-            <h4>Team Two</h4>
-            <FormControl variant='outlined' size='small' style={{ width: '300px' }}>
-              <InputLabel id='playerThreeLabel'>{isFourPlayer ? 'Side One' : 'Player Two'}</InputLabel>
-              <Select
-                labelId='playerThreeLabel'
-                value={playerThree ? playerThree : ''}
-                label={isFourPlayer ? 'Side One' : 'Player Two'}
-                onChange={e => setPlayerThree(e.target.value)}>
-                {playersStats.map(x => (
-                  <MenuItem value={x.teamName} key={x.teamName}>
-                    {x.teamName}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            {isSinglePlayer ? (
+              <></>
+            ) : (
+              <>
+                <h4>Team Two</h4>
+                <FormControl variant='outlined' size='small' style={{ width: '300px' }}>
+                  <InputLabel id='playerThreeLabel'>{isFourPlayer ? 'Side One' : 'Player Two'}</InputLabel>
+                  <Select
+                    labelId='playerThreeLabel'
+                    value={playerThree ? playerThree : ''}
+                    label={isFourPlayer ? 'Side One' : 'Player Two'}
+                    onChange={e => setPlayerThree(e.target.value)}>
+                    {playersStats.map(x => (
+                      <MenuItem value={x.teamName} key={x.teamName}>
+                        {x.teamName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </>
+            )}
             {isFourPlayer ? (
               <FormControl variant='outlined' size='small' style={{ width: '300px', marginTop: '10px' }}>
                 <InputLabel id='playerFourLabel'>Side Two</InputLabel>
