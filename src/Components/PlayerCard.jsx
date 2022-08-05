@@ -35,6 +35,24 @@ export default function PlayerCard({
     bully: parseInt(history[index].bully),
     foul: parseInt(history[index].foul)
   })
+
+  useEffect(() => {
+    history[index].totalPoints = player.totalPoints
+    history[index].totalRounds = totalRounds
+    history[index].pprAvg = player.pprAvg
+    history[index].fourBaggers = fourBaggers
+    history[index].bagsThrown = player.bagsThrown + 1
+    history[index].slide = player.slide
+    history[index].airmail = player.airmail
+    history[index].roll = player.roll
+    history[index].block = player.block
+    history[index].push = player.push
+    history[index].woody = player.woody
+    history[index].bully = player.bully
+    history[index].foul = player.foul
+    history[index].totalPoints = player.totalPoints
+  }, [history, index, player, totalRounds, fourBaggers])
+
   useEffect(() => {
     if (totalRounds !== 0) {
       setPlayer(s => ({
