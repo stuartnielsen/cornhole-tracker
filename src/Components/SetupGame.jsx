@@ -46,7 +46,8 @@ export default function SetupGame() {
     const player = csvRows.map(i => {
       const values = i.split(',')
       const headers = csvHeader.reduce((object, header, index) => {
-        object[header] = values[index]
+        if (header === 'teamName' || header === 'bagnumber') object[header] = values[index]
+        else object[header] = parseFloat(values[index])
         return object
       }, {})
       return headers
