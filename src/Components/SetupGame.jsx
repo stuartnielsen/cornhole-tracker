@@ -83,7 +83,7 @@ export default function SetupGame() {
     setPlayersStats(curr => [...curr, newPlayer])
     setNewPlayer(s => ({ ...s, teamName: '' }))
   }
-
+  console.log(playersStats)
   return (
     <div
       style={{

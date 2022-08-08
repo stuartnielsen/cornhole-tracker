@@ -15,66 +15,67 @@ export default function PlayerCard({
   totalRounds,
   activePlayer,
   players,
+  Player,
   history
 }) {
-  const index = history.findIndex(item => item.teamName === players)
-  const [player, setPlayer] = useState({
-    id: history[index].id,
-    teamName: history[index].teamName,
-    totalRounds: parseInt(history[index].totalRounds),
-    totalPoints: parseInt(history[index].totalPoints),
-    pprAvg: parseInt(history[index].pprAvg),
-    fourBaggers: parseInt(history[index].fourBaggers),
-    bagsThrown: parseInt(history[index].bagsThrown),
-    slide: parseInt(history[index].slide),
-    airmail: parseInt(history[index].airmail),
-    roll: parseInt(history[index].roll),
-    block: parseInt(history[index].block),
-    push: parseInt(history[index].push),
-    woody: parseInt(history[index].woody),
-    bully: parseInt(history[index].bully),
-    foul: parseInt(history[index].foul)
-  })
+  // console.log(Player)
 
-  useEffect(() => {
-    history[index].totalPoints = player.totalPoints
-    history[index].totalRounds = totalRounds
-    history[index].pprAvg = player.pprAvg
-    history[index].fourBaggers = fourBaggers
-    history[index].bagsThrown = player.bagsThrown + 1
-    history[index].slide = player.slide
-    history[index].airmail = player.airmail
-    history[index].roll = player.roll
-    history[index].block = player.block
-    history[index].push = player.push
-    history[index].woody = player.woody
-    history[index].bully = player.bully
-    history[index].foul = player.foul
-    history[index].totalPoints = player.totalPoints
-  }, [history, index, player, totalRounds, fourBaggers])
+  // const index = history.findIndex(item => item.teamName === players)
+  // const [Player, setPlayer] = useState({
+  //   id: history[index].id,
+  //   teamName: history[index].teamName,
+  //   totalRounds: parseInt(history[index].totalRounds),
+  //   totalPoints: parseInt(history[index].totalPoints),
+  //   pprAvg: parseInt(history[index].pprAvg),
+  //   fourBaggers: parseInt(history[index].fourBaggers),
+  //   bagsThrown: parseInt(history[index].bagsThrown),
+  //   slide: parseInt(history[index].slide),
+  //   airmail: parseInt(history[index].airmail),
+  //   roll: parseInt(history[index].roll),
+  //   block: parseInt(history[index].block),
+  //   push: parseInt(history[index].push),
+  //   woody: parseInt(history[index].woody),
+  //   bully: parseInt(history[index].bully),
+  //   foul: parseInt(history[index].foul)
+  // })
+
+  // useEffect(() => {
+  //   history[index].totalPoints = Player.totalPoints
+  //   history[index].totalRounds = totalRounds
+  //   history[index].pprAvg = Player.pprAvg
+  //   history[index].fourBaggers = fourBaggers
+  //   history[index].bagsThrown = Player.bagsThrown + 1
+  //   history[index].slide = Player.slide
+  //   history[index].airmail = Player.airmail
+  //   history[index].roll = Player.roll
+  //   history[index].block = Player.block
+  //   history[index].push = Player.push
+  //   history[index].woody = Player.woody
+  //   history[index].bully = Player.bully
+  //   history[index].foul = Player.foul
+  //   history[index].totalPoints = Player.totalPoints
+  // }, [history, index, Player, totalRounds, fourBaggers])
 
   useEffect(() => {
     if (totalRounds !== 0) {
-      setPlayer(s => ({
-        ...s,
-        pprAvg: player.totalPoints / totalRounds
-      }))
+      Player.pprAvg = Player.totalPoints / Player.totalRounds
     }
-  }, [player.totalPoints, totalRounds])
+  }, [Player.totalPoints, totalRounds, Player])
 
   useEffect(() => {
-    setPlayer(s => ({ ...s, score: gamePoints, fourBaggers: fourBaggers }))
-  }, [gamePoints, fourBaggers])
+    Player.score = gamePoints
+    Player.fourBaggers = fourBaggers
+  }, [gamePoints, fourBaggers, Player])
 
   useEffect(() => {
     setScore(roundPoints)
-    setPlayer(s => ({ ...s, roundScore: roundPoints }))
-  }, [roundPoints, setScore, player.fourBaggers])
+    Player.roundScore = roundPoints
+  }, [roundPoints, setScore, Player.fourBaggers, Player])
 
   function AddPlayerPoints(points) {
     if (roundPoints + points <= 12 && (roundPoints > 0 || points > 0)) {
       setScore(points + roundPoints)
-      setPlayer(s => ({ ...s, totalPoints: player.totalPoints + points }))
+      Player.totalPoints += points
     }
   }
 
@@ -82,81 +83,73 @@ export default function PlayerCard({
     if (bagNumber < 5) {
       switch (bagType) {
         case 'Slide':
-          setPlayer(s => ({ ...s, slide: player.slide + 1 }))
+          Player.slide += 1
           AddPlayerPoints(3)
           break
         case 'Airmail':
-          setPlayer(s => ({ ...s, airmail: player.airmail + 1 }))
+          Player.airmail += 1
           AddPlayerPoints(3)
           break
         case 'Roll':
-          setPlayer(s => ({ ...s, roll: player.roll + 1 }))
+          Player.roll += 1
           AddPlayerPoints(3)
           break
         case 'Block':
-          setPlayer(s => ({ ...s, block: player.block + 1 }))
+          Player.block += 1
           AddPlayerPoints(1)
           break
         case 'Push':
-          setPlayer(s => ({ ...s, push: player.push + 1 }))
+          Player.push += 1
           break
         case 'Woody':
-          setPlayer(s => ({ ...s, woody: player.woody + 1 }))
+          Player.woody += 1
           AddPlayerPoints(1)
           break
         case 'Bully':
-          setPlayer(s => ({ ...s, bully: player.bully + 1 }))
+          Player.bully += 1
           break
         case 'Foul':
-          setPlayer(s => ({ ...s, foul: player.foul + 1 }))
+          Player.foul += 1
           break
         default:
       }
     }
-    if (bagNumber === 1) {
-      setPlayer(s => ({ ...s, bag1: bagType }))
-    }
-    if (bagNumber === 2) {
-      setPlayer(s => ({ ...s, bag2: bagType }))
-    }
-    if (bagNumber === 3) {
-      setPlayer(s => ({ ...s, bag3: bagType }))
-    }
     if (bagNumber === 4) {
-      setPlayer(s => ({ ...s, bag4: bagType, bagnumber: 5, bagsThrown: player.bagsThrown + 1 }))
+      Player.bagsThrown += 1
       setBagNumber('-')
     }
     if (bagNumber < 4) {
-      setPlayer(s => ({ ...s, bagnumber: player.bagnumber + 1, bagsThrown: player.bagsThrown + 1 }))
+      Player.bagnumber += 1
+      Player.bagsThrown += 1
       setBagNumber(bagNumber + 1)
     }
   }
   if (isGameOver) {
-    history[index].totalPoints = player.totalPoints
-    history[index].totalRounds = totalRounds
-    history[index].pprAvg = player.pprAvg
-    history[index].fourBaggers = fourBaggers
-    history[index].bagsThrown = player.bagsThrown + 1
-    history[index].slide = player.slide
-    history[index].airmail = player.airmail
-    history[index].roll = player.roll
-    history[index].block = player.block
-    history[index].push = player.push
-    history[index].woody = player.woody
-    history[index].bully = player.bully
-    history[index].foul = player.foul
-    history[index].totalPoints = player.totalPoints
+    // Player.totalPoints = Player.totalPoints
+    // history[index].totalRounds = totalRounds
+    // history[index].pprAvg = Player.pprAvg
+    // history[index].fourBaggers = fourBaggers
+    // history[index].bagsThrown = Player.bagsThrown + 1
+    // history[index].slide = Player.slide
+    // history[index].airmail = Player.airmail
+    // history[index].roll = Player.roll
+    // history[index].block = Player.block
+    // history[index].push = Player.push
+    // history[index].woody = Player.woody
+    // history[index].bully = Player.bully
+    // history[index].foul = Player.foul
+    // history[index].totalPoints = Player.totalPoints
   }
 
   return (
     <>
       <Card style={{ margin: '10px', padding: '10px', alignItems: 'end', textAlign: 'center', width: '280px', height: '450px' }}>
-        <h2>{history[index].teamName}</h2>
-        <h1>{player.score}</h1>
+        <h2>{Player.teamName}</h2>
+        <h1>{Player.score}</h1>
         <h2>{!activePlayer ? roundPoints : 0}</h2>
         {isGameOver ? (
-          player.score > 21 ? (
-            <div>{player.teamName} Wins</div>
+          Player.score > 21 ? (
+            <div>{Player.teamName} Wins</div>
           ) : (
             <></>
           )
@@ -270,7 +263,7 @@ export default function PlayerCard({
           </>
         )}
       </Card>
-      <PlayerStats player={player} totalRounds={totalRounds} />
+      <PlayerStats player={Player} totalRounds={totalRounds} />
     </>
   )
 }

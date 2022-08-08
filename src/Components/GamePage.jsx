@@ -79,6 +79,7 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
     setRoundNumber(0)
   }
 
+  // const index = history.findIndex(item => item.teamName === players)
   return (
     <>
       <Grid container>
@@ -100,6 +101,7 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
               activePlayer={!activeSide}
               players={players[2]}
               history={history}
+              Player={history[history.findIndex(item => item.teamName === players[2])]}
             />
           ) : (
             <></>
@@ -120,6 +122,7 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
             activePlayer={activeSide}
             players={players[0]}
             history={history}
+            Player={history[history.findIndex(item => item.teamName === players[0])]}
           />
         </Grid>
 
@@ -180,6 +183,7 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
             activePlayer={activeSide}
             players={players[1]}
             history={history}
+            Player={history[history.findIndex(item => item.teamName === players[1])]}
           />
         </Grid>
 
@@ -199,6 +203,7 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
               activePlayer={!activeSide}
               players={players[3]}
               history={history}
+              Player={history[history.findIndex(item => item.teamName === players[3])]}
             />
           ) : (
             <></>
