@@ -19,7 +19,7 @@ export default function PlayerCard({
   player,
   setPlayer
 }) {
-  const index = history.findIndex(item => item.teamName === players)
+  // const index = history.findIndex(item => item.teamName === players)
   // const [player, setPlayer] = useState({
   //   id: history[index].id,
   //   teamName: history[index].teamName,
@@ -56,22 +56,22 @@ export default function PlayerCard({
   // }, [history, index, player, totalRounds, fourBaggers])
 
   useEffect(() => {
-    if (totalRounds !== 0) {
+    if (player.totalRounds !== 0) {
       setPlayer(s => ({
         ...s,
-        pprAvg: player.totalPoints / totalRounds
+        pprAvg: player.totalPoints / player.totalRounds
       }))
     }
   }, [player.totalPoints, totalRounds])
 
   useEffect(() => {
-    setPlayer(s => ({ ...s, score: gamePoints, fourBaggers: fourBaggers }))
-  }, [gamePoints, fourBaggers])
+    setPlayer(s => ({ ...s, score: gamePoints }))
+  }, [gamePoints])
 
   useEffect(() => {
     setScore(roundPoints)
     setPlayer(s => ({ ...s, roundScore: roundPoints }))
-  }, [roundPoints, setScore, player.fourBaggers])
+  }, [roundPoints, setScore])
 
   function AddPlayerPoints(points) {
     if (roundPoints + points <= 12 && (roundPoints > 0 || points > 0)) {
@@ -133,27 +133,27 @@ export default function PlayerCard({
       setBagNumber(bagNumber + 1)
     }
   }
-  if (isGameOver) {
-    history[index].totalPoints = player.totalPoints
-    history[index].totalRounds = totalRounds
-    history[index].pprAvg = player.pprAvg
-    history[index].fourBaggers = fourBaggers
-    history[index].bagsThrown = player.bagsThrown
-    history[index].slide = player.slide
-    history[index].airmail = player.airmail
-    history[index].roll = player.roll
-    history[index].block = player.block
-    history[index].push = player.push
-    history[index].woody = player.woody
-    history[index].bully = player.bully
-    history[index].foul = player.foul
-    history[index].totalPoints = player.totalPoints
-  }
+  // if (isGameOver) {
+  //   history[index].totalPoints = player.totalPoints
+  //   // history[index].totalRounds = totalRounds
+  //   // history[index].pprAvg = player.pprAvg
+  //   // history[index].fourBaggers = fourBaggers
+  //   history[index].bagsThrown = player.bagsThrown
+  //   history[index].slide = player.slide
+  //   history[index].airmail = player.airmail
+  //   history[index].roll = player.roll
+  //   history[index].block = player.block
+  //   history[index].push = player.push
+  //   history[index].woody = player.woody
+  //   history[index].bully = player.bully
+  //   history[index].foul = player.foul
+  //   history[index].totalPoints = player.totalPoints
+  // }
 
   return (
     <>
       <Card style={{ margin: '10px', padding: '10px', alignItems: 'end', textAlign: 'center', width: '280px', height: '450px' }}>
-        <h2>{history[index].teamName}</h2>
+        <h2>{player.teamName}</h2>
         <h1>{player.score}</h1>
         <h2>{!activePlayer ? roundPoints : 0}</h2>
         {isGameOver ? (

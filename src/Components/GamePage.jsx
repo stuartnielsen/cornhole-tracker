@@ -26,21 +26,18 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
   const [playerTwo, setPlayerTwo] = useState(history[history.findIndex(item => item.teamName === players[1])])
   const [playerThree, setPlayerThree] = useState(history[history.findIndex(item => item.teamName === players[2])])
   const [playerFour, setPlayerFour] = useState(history[history.findIndex(item => item.teamName === players[3])])
+  const updatedHistory = history
 
-  function setRounds() {
-    for (let i = 0; i < players.length; i++) {
-      const index = history.findIndex(item => item.teamName === players[i])
-      history[index].totalRounds += 1
-    }
-  }
   function ScoreRound() {
+    console.log(updatedHistory)
     setRounds()
-    if (teamOneRoundScore === 12) {
-      setTeamOneFourBaggers(teamOneFourBaggers + 1)
-    }
-    if (teamTwoRoundScore === 12) {
-      setTeamTwoFourBaggers(teamTwoFourBaggers + 1)
-    }
+    setFourBaggers()
+    // if (teamOneRoundScore === 12) {
+    //   setTeamOneFourBaggers(teamOneFourBaggers + 1)
+    // }
+    // if (teamTwoRoundScore === 12) {
+    //   setTeamTwoFourBaggers(teamTwoFourBaggers + 1)
+    // }
 
     let teamOnesScore = teamOneRoundScore - teamTwoRoundScore < 0 ? 0 : teamOneRoundScore - teamTwoRoundScore
     let teamTwosScore = teamTwoRoundScore - teamOneRoundScore < 0 ? 0 : teamTwoRoundScore - teamOneRoundScore
@@ -56,11 +53,31 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
 
     if (teamOneGamePoints + teamOnesScore >= 21 || teamTwoGamePoints + teamTwosScore >= 21) {
       setIsGameOver(true)
-    } else {
-      setRounds()
     }
+    setRounds()
+    UpdateHistory()
     ClearRound()
   }
+
+  function setFourBaggers() {
+    if (teamOneRoundScore === 12) setPlayerOne(s => ({ ...s, fourBaggers: playerOne.fourBaggers + 1 }))
+
+    if (teamTwoRoundScore === 12) setPlayerTwo(s => ({ ...s, fourBaggers: playerTwo.fourBaggers + 1 }))
+    if (isFourPlayer) {
+      setPlayerThree(s => ({ ...s, fourBaggers: playerThree.fourBaggers + 1 }))
+      setPlayerFour(s => ({ ...s, fourBaggers: playerFour.fourBaggers + 1 }))
+    }
+  }
+
+  function UpdateHistory() {
+    updatedHistory[history.findIndex(item => item.teamName === playerOne.teamName)] = playerOne
+    updatedHistory[history.findIndex(item => item.teamName === playerTwo.teamName)] = playerTwo
+    if (isFourPlayer) {
+      updatedHistory[history.findIndex(item => item.teamName === playerThree.teamName)] = playerThree
+      updatedHistory[history.findIndex(item => item.teamName === playerFour.teamName)] = playerFour
+    }
+  }
+
   function setRounds() {
     if (isFourPlayer) {
       !activeSide ? setTotalRounds(totalRounds + 1) : setSideTwoRounds(sideTwoRounds + 1)
@@ -69,6 +86,18 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
       setTotalRounds(totalRounds + 1)
     }
     setRoundNumber(roundNumber + 1)
+
+    setPlayerOne(s => ({ ...s, totalRounds: playerOne.totalRounds + 1 }))
+    setPlayerTwo(s => ({ ...s, totalRounds: playerTwo.totalRounds + 1 }))
+    if (isFourPlayer) {
+      setPlayerThree(s => ({ ...s, totalRounds: playerThree.totalRounds + 1 }))
+      setPlayerFour(s => ({ ...s, totalRounds: playerFour.totalRounds + 1 }))
+    }
+
+    // for (let i = 0; i < players.length; i++) {
+    //   const index = history.findIndex(item => item.teamName === players[i])
+    //   history[index].totalRounds += 1
+    // }
   }
 
   function ClearRound() {
@@ -80,7 +109,6 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
 
   function ResetGame() {
     ClearRound()
-    setRounds()
     setTeamOneGamePoints(0)
     setTeamTwoGamePoints(0)
     setIsGameOver(false)
@@ -158,7 +186,7 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
                 <div>
                   <CSVLink
                     className='MuiButton-root MuiButton-outlined MuiButton-outlinedSuccess MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-sxix9q-MuiButtonBase-root-MuiButton-root'
-                    data={history}
+                    data={updatedHistory}
                     filename={'CornholePlayerStats'}>
                     Save Stats
                   </CSVLink>
@@ -225,6 +253,9 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
   )
 }
 /*TODO:  
+Bug: total rounds exported are short one round
+Bug: Four baggers exported are short one if it was done on a winning round
+Bug: PPR are one round behind as the game ends so the eport value is incorrect
 Feature: Style buttons on game page
 Feature: Reset game
 Feature: avg. rounds per game

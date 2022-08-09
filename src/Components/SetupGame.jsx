@@ -46,7 +46,8 @@ export default function SetupGame() {
     const player = csvRows.map(i => {
       const values = i.split(',')
       const headers = csvHeader.reduce((object, header, index) => {
-        object[header] = values[index]
+        if (header === 'teamName' || header === 'bagNumber') object[header] = values[index]
+        else object[header] = parseFloat(values[index])
         return object
       }, {})
       return headers
@@ -63,21 +64,6 @@ export default function SetupGame() {
       fileReader.readAsText(file)
     }
   }, [file, fileReader])
-
-  //   const handleOnSubmit = e => {
-  //     e.preventDefault()
-
-  //     if (file) {
-  //       fileReader.onload = function (event) {
-  //         const text = event.target.result
-  //         csvFileToArray(text)
-  //       }
-
-  //       fileReader.readAsText(file)
-  //     }
-  //   }
-
-  //   const headerKeys = Object.keys(Object.assign({}, ...playersStats))
 
   function addPlayer() {
     setPlayersStats(curr => [...curr, newPlayer])
@@ -109,12 +95,6 @@ export default function SetupGame() {
           ) : (
             <form style={{ marginBottom: '20px' }}>
               <input type={'file'} id={'csvFileInput'} accept={'.csv'} onChange={handleOnChange} />
-              {/* <button
-                onClick={e => {
-                  handleOnSubmit(e)
-                }}>
-                Load Players
-              </button> */}
             </form>
           )}
           <div>
