@@ -22,12 +22,19 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
   const [teamOneBagNumber, setTeamOneBagNumber] = useState(1)
   const [teamTwoBagNumber, setTeamTwoBagNumber] = useState(1)
   const [activeSide, setActiveSide] = useState(false)
+  const [playerOne, setPlayerOne] = useState(history[history.findIndex(item => item.teamName === players[0])])
+  const [playerTwo, setPlayerTwo] = useState(history[history.findIndex(item => item.teamName === players[1])])
+  const [playerThree, setPlayerThree] = useState(history[history.findIndex(item => item.teamName === players[2])])
+  const [playerFour, setPlayerFour] = useState(history[history.findIndex(item => item.teamName === players[3])])
 
-  function ScoreRound() {
+  function setRounds() {
     for (let i = 0; i < players.length; i++) {
       const index = history.findIndex(item => item.teamName === players[i])
       history[index].totalRounds += 1
     }
+  }
+  function ScoreRound() {
+    setRounds()
     if (teamOneRoundScore === 12) {
       setTeamOneFourBaggers(teamOneFourBaggers + 1)
     }
@@ -73,6 +80,7 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
 
   function ResetGame() {
     ClearRound()
+    setRounds()
     setTeamOneGamePoints(0)
     setTeamTwoGamePoints(0)
     setIsGameOver(false)
@@ -100,6 +108,8 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
               activePlayer={!activeSide}
               players={players[2]}
               history={history}
+              player={playerThree}
+              setPlayer={setPlayerThree}
             />
           ) : (
             <></>
@@ -120,6 +130,8 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
             activePlayer={activeSide}
             players={players[0]}
             history={history}
+            player={playerOne}
+            setPlayer={setPlayerOne}
           />
         </Grid>
 
@@ -180,6 +192,8 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
             activePlayer={activeSide}
             players={players[1]}
             history={history}
+            player={playerTwo}
+            setPlayer={setPlayerTwo}
           />
         </Grid>
 
@@ -199,6 +213,8 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
               activePlayer={!activeSide}
               players={players[3]}
               history={history}
+              player={playerFour}
+              setPlayer={setPlayerFour}
             />
           ) : (
             <></>

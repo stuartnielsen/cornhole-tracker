@@ -1,5 +1,5 @@
 import { Button, Card, Divider } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import PlayerStats from './PlayerStats'
 
 export default function PlayerCard({
@@ -15,43 +15,45 @@ export default function PlayerCard({
   totalRounds,
   activePlayer,
   players,
-  history
+  history,
+  player,
+  setPlayer
 }) {
   const index = history.findIndex(item => item.teamName === players)
-  const [player, setPlayer] = useState({
-    id: history[index].id,
-    teamName: history[index].teamName,
-    totalRounds: parseInt(history[index].totalRounds),
-    totalPoints: parseInt(history[index].totalPoints),
-    pprAvg: parseInt(history[index].pprAvg),
-    fourBaggers: parseInt(history[index].fourBaggers),
-    bagsThrown: parseInt(history[index].bagsThrown),
-    slide: parseInt(history[index].slide),
-    airmail: parseInt(history[index].airmail),
-    roll: parseInt(history[index].roll),
-    block: parseInt(history[index].block),
-    push: parseInt(history[index].push),
-    woody: parseInt(history[index].woody),
-    bully: parseInt(history[index].bully),
-    foul: parseInt(history[index].foul)
-  })
+  // const [player, setPlayer] = useState({
+  //   id: history[index].id,
+  //   teamName: history[index].teamName,
+  //   totalRounds: parseInt(history[index].totalRounds),
+  //   totalPoints: parseInt(history[index].totalPoints),
+  //   pprAvg: parseInt(history[index].pprAvg),
+  //   fourBaggers: parseInt(history[index].fourBaggers),
+  //   bagsThrown: parseInt(history[index].bagsThrown),
+  //   slide: parseInt(history[index].slide),
+  //   airmail: parseInt(history[index].airmail),
+  //   roll: parseInt(history[index].roll),
+  //   block: parseInt(history[index].block),
+  //   push: parseInt(history[index].push),
+  //   woody: parseInt(history[index].woody),
+  //   bully: parseInt(history[index].bully),
+  //   foul: parseInt(history[index].foul)
+  // })
 
-  useEffect(() => {
-    history[index].totalPoints = player.totalPoints
-    history[index].totalRounds = totalRounds
-    history[index].pprAvg = player.pprAvg
-    history[index].fourBaggers = fourBaggers
-    history[index].bagsThrown = player.bagsThrown + 1
-    history[index].slide = player.slide
-    history[index].airmail = player.airmail
-    history[index].roll = player.roll
-    history[index].block = player.block
-    history[index].push = player.push
-    history[index].woody = player.woody
-    history[index].bully = player.bully
-    history[index].foul = player.foul
-    history[index].totalPoints = player.totalPoints
-  }, [history, index, player, totalRounds, fourBaggers])
+  // useEffect(() => {
+  //   history[index].totalPoints = player.totalPoints
+  //   history[index].totalRounds = totalRounds
+  //   history[index].pprAvg = player.pprAvg
+  //   history[index].fourBaggers = fourBaggers
+  //   history[index].bagsThrown = player.bagsThrown + 1
+  //   history[index].slide = player.slide
+  //   history[index].airmail = player.airmail
+  //   history[index].roll = player.roll
+  //   history[index].block = player.block
+  //   history[index].push = player.push
+  //   history[index].woody = player.woody
+  //   history[index].bully = player.bully
+  //   history[index].foul = player.foul
+  //   history[index].totalPoints = player.totalPoints
+  // }, [history, index, player, totalRounds, fourBaggers])
 
   useEffect(() => {
     if (totalRounds !== 0) {
@@ -136,7 +138,7 @@ export default function PlayerCard({
     history[index].totalRounds = totalRounds
     history[index].pprAvg = player.pprAvg
     history[index].fourBaggers = fourBaggers
-    history[index].bagsThrown = player.bagsThrown + 1
+    history[index].bagsThrown = player.bagsThrown
     history[index].slide = player.slide
     history[index].airmail = player.airmail
     history[index].roll = player.roll
