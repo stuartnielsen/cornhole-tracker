@@ -130,11 +130,7 @@ export default function PlayerCard({
                 color='success'
                 variant='outlined'
                 disabled={activePlayer}
-                onMouseOver={() =>
-                  setBagDescription(
-                    'A bag that does not slide or bounce on the board but goes directly into the hole, usually over an opponents blocker bag'
-                  )
-                }
+                onMouseOver={() => setBagDescription('A bag that goes directly into the whole and does not slide or bounce')}
                 onMouseLeave={() => setBagDescription('')}>
                 Airmail
               </Button>
@@ -155,9 +151,7 @@ export default function PlayerCard({
                 style={{ width: '75px', margin: '10px 10px 0px 0px' }}
                 variant='outlined'
                 disabled={activePlayer}
-                onMouseOver={() =>
-                  setBagDescription('A bag that lands in front of the hole, blocking the hole from an opponents slide shot')
-                }
+                onMouseOver={() => setBagDescription('A bag that lands in front blocking the hole from a slide shot')}
                 onMouseLeave={() => setBagDescription('')}>
                 Block
               </Button>
@@ -166,7 +160,7 @@ export default function PlayerCard({
                 style={{ width: '75px', margin: '10px 10px 0px 0px' }}
                 variant='outlined'
                 disabled={activePlayer}
-                onMouseOver={() => setBagDescription('A bag that slides up the board and pushes a blocker in the hole')}
+                onMouseOver={() => setBagDescription('A bag that slides pushes a blocker in the hole')}
                 onMouseLeave={() => setBagDescription('')}>
                 Push
               </Button>
@@ -175,7 +169,7 @@ export default function PlayerCard({
                 style={{ width: '75px', margin: '10px 0px 0px 0px' }}
                 variant='outlined'
                 disabled={activePlayer}
-                onMouseOver={() => setBagDescription('A bag that lands on the board but does not block the hole')}
+                onMouseOver={() => setBagDescription('A bag that lands on the board but does not block it')}
                 onMouseLeave={() => setBagDescription('')}>
                 Woody
               </Button>
@@ -197,7 +191,7 @@ export default function PlayerCard({
                 color='error'
                 variant='outlined'
                 disabled={activePlayer}
-                onMouseOver={() => setBagDescription('A bag that pushes or “bullies” your opponents bag out of the danger zone')}
+                onMouseOver={() => setBagDescription('A bag that pushes your another bag out of the danger zone')}
                 onMouseLeave={() => setBagDescription('')}>
                 Bully
               </Button>

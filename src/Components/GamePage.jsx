@@ -169,14 +169,14 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
                 Submit Round
               </Button>
             </h4>
-            <h4>Shot Description</h4>
+            <h4 style={{ marginBottom: '0px' }}>Shot Description</h4>
             <div>{bagDescription}</div>
-            <Button variant='outlined' size='small' color='error' style={{ marginTop: '20px' }} onClick={() => ResetGame()}>
+            <Button variant='outlined' size='small' color='error' style={{ marginTop: '10px' }} onClick={() => ResetGame()}>
               New Game
             </Button>
-            {isGameOver ? (
+            {isGameOver || roundNumber !== 1 ? (
               <>
-                <div>
+                <div style={{ marginTop: '10px' }}>
                   <CSVLink
                     className='MuiButton-root MuiButton-outlined MuiButton-outlinedSuccess MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-sxix9q-MuiButtonBase-root-MuiButton-root'
                     data={updatedHistory}
@@ -185,7 +185,7 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
                   </CSVLink>
                 </div>
                 <div>
-                  <Button variant='outlined' onClick={() => setStartGame(false)}>
+                  <Button variant='outlined' onClick={() => setStartGame(false)} style={{ marginTop: '10px' }}>
                     Change Players
                   </Button>
                 </div>
