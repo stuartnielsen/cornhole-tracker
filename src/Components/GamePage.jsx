@@ -5,6 +5,7 @@ import { useState } from 'react'
 import CenterStatCard from './CenterStatCard'
 import PlayerCard from './PlayerCard'
 import { CSVLink } from 'react-csv'
+import { useEffect } from 'react'
 
 export default function GamePage({ isFourPlayer, players, history, setStartGame }) {
   const [roundNumber, setRoundNumber] = useState(0)
@@ -28,16 +29,13 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
   const [playerFour, setPlayerFour] = useState(history[history.findIndex(item => item.teamName === players[3])])
   const updatedHistory = history
 
+  useEffect(() => {
+    UpdateHistory()
+  }, [isGameOver, UpdateHistory])
+
   function ScoreRound() {
-    console.log(updatedHistory)
     setRounds()
     setFourBaggers()
-    // if (teamOneRoundScore === 12) {
-    //   setTeamOneFourBaggers(teamOneFourBaggers + 1)
-    // }
-    // if (teamTwoRoundScore === 12) {
-    //   setTeamTwoFourBaggers(teamTwoFourBaggers + 1)
-    // }
 
     let teamOnesScore = teamOneRoundScore - teamTwoRoundScore < 0 ? 0 : teamOneRoundScore - teamTwoRoundScore
     let teamTwosScore = teamTwoRoundScore - teamOneRoundScore < 0 ? 0 : teamTwoRoundScore - teamOneRoundScore
@@ -93,11 +91,6 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
       setPlayerThree(s => ({ ...s, totalRounds: playerThree.totalRounds + 1 }))
       setPlayerFour(s => ({ ...s, totalRounds: playerFour.totalRounds + 1 }))
     }
-
-    // for (let i = 0; i < players.length; i++) {
-    //   const index = history.findIndex(item => item.teamName === players[i])
-    //   history[index].totalRounds += 1
-    // }
   }
 
   function ClearRound() {

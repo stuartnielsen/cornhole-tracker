@@ -19,42 +19,6 @@ export default function PlayerCard({
   player,
   setPlayer
 }) {
-  // const index = history.findIndex(item => item.teamName === players)
-  // const [player, setPlayer] = useState({
-  //   id: history[index].id,
-  //   teamName: history[index].teamName,
-  //   totalRounds: parseInt(history[index].totalRounds),
-  //   totalPoints: parseInt(history[index].totalPoints),
-  //   pprAvg: parseInt(history[index].pprAvg),
-  //   fourBaggers: parseInt(history[index].fourBaggers),
-  //   bagsThrown: parseInt(history[index].bagsThrown),
-  //   slide: parseInt(history[index].slide),
-  //   airmail: parseInt(history[index].airmail),
-  //   roll: parseInt(history[index].roll),
-  //   block: parseInt(history[index].block),
-  //   push: parseInt(history[index].push),
-  //   woody: parseInt(history[index].woody),
-  //   bully: parseInt(history[index].bully),
-  //   foul: parseInt(history[index].foul)
-  // })
-
-  // useEffect(() => {
-  //   history[index].totalPoints = player.totalPoints
-  //   history[index].totalRounds = totalRounds
-  //   history[index].pprAvg = player.pprAvg
-  //   history[index].fourBaggers = fourBaggers
-  //   history[index].bagsThrown = player.bagsThrown + 1
-  //   history[index].slide = player.slide
-  //   history[index].airmail = player.airmail
-  //   history[index].roll = player.roll
-  //   history[index].block = player.block
-  //   history[index].push = player.push
-  //   history[index].woody = player.woody
-  //   history[index].bully = player.bully
-  //   history[index].foul = player.foul
-  //   history[index].totalPoints = player.totalPoints
-  // }, [history, index, player, totalRounds, fourBaggers])
-
   useEffect(() => {
     if (player.totalRounds !== 0) {
       setPlayer(s => ({
@@ -62,16 +26,16 @@ export default function PlayerCard({
         pprAvg: player.totalPoints / player.totalRounds
       }))
     }
-  }, [player.totalPoints, totalRounds])
+  }, [player.totalPoints, totalRounds, setPlayer, player.totalRounds])
 
   useEffect(() => {
     setPlayer(s => ({ ...s, score: gamePoints }))
-  }, [gamePoints])
+  }, [gamePoints, setPlayer])
 
   useEffect(() => {
     setScore(roundPoints)
     setPlayer(s => ({ ...s, roundScore: roundPoints }))
-  }, [roundPoints, setScore])
+  }, [roundPoints, setScore, setPlayer])
 
   function AddPlayerPoints(points) {
     if (roundPoints + points <= 12 && (roundPoints > 0 || points > 0)) {
@@ -133,22 +97,6 @@ export default function PlayerCard({
       setBagNumber(bagNumber + 1)
     }
   }
-  // if (isGameOver) {
-  //   history[index].totalPoints = player.totalPoints
-  //   // history[index].totalRounds = totalRounds
-  //   // history[index].pprAvg = player.pprAvg
-  //   // history[index].fourBaggers = fourBaggers
-  //   history[index].bagsThrown = player.bagsThrown
-  //   history[index].slide = player.slide
-  //   history[index].airmail = player.airmail
-  //   history[index].roll = player.roll
-  //   history[index].block = player.block
-  //   history[index].push = player.push
-  //   history[index].woody = player.woody
-  //   history[index].bully = player.bully
-  //   history[index].foul = player.foul
-  //   history[index].totalPoints = player.totalPoints
-  // }
 
   return (
     <>
