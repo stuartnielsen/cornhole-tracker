@@ -5,17 +5,13 @@ import PlayerStats from './PlayerStats'
 export default function PlayerCard({
   isGameOver,
   setBagDescription,
-  fourBaggers,
   setScore,
-  roundNumber,
   gamePoints,
   roundPoints,
   bagNumber,
   setBagNumber,
   totalRounds,
   activePlayer,
-  players,
-  history,
   player,
   setPlayer
 }) {
@@ -79,17 +75,8 @@ export default function PlayerCard({
         default:
       }
     }
-    if (bagNumber === 1) {
-      setPlayer(s => ({ ...s, bag1: bagType }))
-    }
-    if (bagNumber === 2) {
-      setPlayer(s => ({ ...s, bag2: bagType }))
-    }
-    if (bagNumber === 3) {
-      setPlayer(s => ({ ...s, bag3: bagType }))
-    }
     if (bagNumber === 4) {
-      setPlayer(s => ({ ...s, bag4: bagType, bagnumber: 5, bagsThrown: player.bagsThrown + 1 }))
+      setPlayer(s => ({ ...s, bagnumber: 5, bagsThrown: player.bagsThrown + 1 }))
       setBagNumber('-')
     }
     if (bagNumber < 4) {

@@ -18,8 +18,6 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
   const [teamTwoRoundScore, setTeamTwoRoundScore] = useState(0)
   const [teamTwoGamePoints, setTeamTwoGamePoints] = useState(0)
   const [teamOneGamePoints, setTeamOneGamePoints] = useState(0)
-  const [teamOneFourBaggers, setTeamOneFourBaggers] = useState(0)
-  const [teamTwoFourBaggers, setTeamTwoFourBaggers] = useState(0)
   const [teamOneBagNumber, setTeamOneBagNumber] = useState(1)
   const [teamTwoBagNumber, setTeamTwoBagNumber] = useState(1)
   const [activeSide, setActiveSide] = useState(false)
@@ -118,17 +116,13 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
             <PlayerCard
               isGameOver={isGameOver}
               setBagDescription={setBagDescription}
-              fourBaggers={teamOneFourBaggers}
               setScore={setTeamOneRoundScore}
-              roundNumber={roundNumber}
               gamePoints={teamOneGamePoints}
               roundPoints={teamOneRoundScore}
               bagNumber={teamOneBagNumber}
               setBagNumber={setTeamOneBagNumber}
               totalRounds={sideTwoRounds}
               activePlayer={!activeSide}
-              players={players[2]}
-              history={history}
               player={playerThree}
               setPlayer={setPlayerThree}
             />
@@ -140,17 +134,13 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
           <PlayerCard
             isGameOver={isGameOver}
             setBagDescription={setBagDescription}
-            fourBaggers={teamOneFourBaggers}
             setScore={setTeamOneRoundScore}
-            roundNumber={roundNumber}
             gamePoints={teamOneGamePoints}
             roundPoints={teamOneRoundScore}
             bagNumber={teamOneBagNumber}
             setBagNumber={setTeamOneBagNumber}
             totalRounds={totalRounds}
             activePlayer={activeSide}
-            players={players[0]}
-            history={history}
             player={playerOne}
             setPlayer={setPlayerOne}
           />
@@ -174,7 +164,7 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
             <Button variant='outlined' size='small' color='error' style={{ marginTop: '10px' }} onClick={() => ResetGame()}>
               New Game
             </Button>
-            {isGameOver || roundNumber !== 1 ? (
+            {isGameOver || roundNumber < 1 ? (
               <>
                 <div style={{ marginTop: '10px' }}>
                   <CSVLink
@@ -202,17 +192,13 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
           <PlayerCard
             isGameOver={isGameOver}
             setBagDescription={setBagDescription}
-            fourBaggers={teamTwoFourBaggers}
             setScore={setTeamTwoRoundScore}
-            roundNumber={roundNumber}
             gamePoints={teamTwoGamePoints}
             roundPoints={teamTwoRoundScore}
             bagNumber={teamTwoBagNumber}
             setBagNumber={setTeamTwoBagNumber}
             totalRounds={totalRounds}
             activePlayer={activeSide}
-            players={players[1]}
-            history={history}
             player={playerTwo}
             setPlayer={setPlayerTwo}
           />
@@ -223,17 +209,13 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
             <PlayerCard
               isGameOver={isGameOver}
               setBagDescription={setBagDescription}
-              fourBaggers={teamTwoFourBaggers}
               setScore={setTeamTwoRoundScore}
-              roundNumber={roundNumber}
               gamePoints={teamTwoGamePoints}
               roundPoints={teamTwoRoundScore}
               bagNumber={teamTwoBagNumber}
               setBagNumber={setTeamTwoBagNumber}
               totalRounds={sideTwoRounds}
               activePlayer={!activeSide}
-              players={players[3]}
-              history={history}
               player={playerFour}
               setPlayer={setPlayerFour}
             />
