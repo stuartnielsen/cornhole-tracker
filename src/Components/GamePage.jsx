@@ -66,8 +66,9 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
         if (teamTwoRoundScore === 12) setPlayerFour(s => ({ ...s, fourBaggers: playerFour.fourBaggers + 1 }))
       }
     } else {
-      if (teamOneRoundScore === 12) setPlayerThree(s => ({ ...s, fourBaggers: playerThree.fourBaggers + 1 }))
-      if (teamTwoRoundScore === 12) setPlayerFour(s => ({ ...s, fourBaggers: playerFour.fourBaggers + 1 }))
+      if (teamOneRoundScore === 12) setPlayerOne(s => ({ ...s, fourBaggers: playerOne.fourBaggers + 1 }))
+
+      if (teamTwoRoundScore === 12) setPlayerTwo(s => ({ ...s, fourBaggers: playerTwo.fourBaggers + 1 }))
     }
   }
 

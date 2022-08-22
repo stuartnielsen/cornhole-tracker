@@ -112,7 +112,7 @@ export default function SetupGame() {
 
           <div style={{ marginTop: '20px' }}>
             <label>Four Players</label>
-            <Switch onChange={() => setIsFourPlayer(!isFourPlayer)} />
+            <Switch onChange={() => setIsFourPlayer(!isFourPlayer)} checked={isFourPlayer} />
           </div>
           <div>
             {/* Team one */}
