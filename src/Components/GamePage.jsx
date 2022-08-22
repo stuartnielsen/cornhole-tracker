@@ -69,14 +69,6 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
       if (teamOneRoundScore === 12) setPlayerThree(s => ({ ...s, fourBaggers: playerThree.fourBaggers + 1 }))
       if (teamTwoRoundScore === 12) setPlayerFour(s => ({ ...s, fourBaggers: playerFour.fourBaggers + 1 }))
     }
-
-    // if (teamOneRoundScore === 12) setPlayerOne(s => ({ ...s, fourBaggers: playerOne.fourBaggers + 1 }))
-
-    // if (teamTwoRoundScore === 12) setPlayerTwo(s => ({ ...s, fourBaggers: playerTwo.fourBaggers + 1 }))
-    // if (isFourPlayer) {
-    //   if (teamOneRoundScore === 12) setPlayerThree(s => ({ ...s, fourBaggers: playerThree.fourBaggers + 1 }))
-    //   if (teamTwoRoundScore === 12) setPlayerFour(s => ({ ...s, fourBaggers: playerFour.fourBaggers + 1 }))
-    // }
   }
 
   function UpdateHistory() {
@@ -106,13 +98,6 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
       setPlayerTwo(s => ({ ...s, totalRounds: playerTwo.totalRounds + 1 }))
     }
     setRoundNumber(roundNumber + 1)
-
-    // setPlayerOne(s => ({ ...s, totalRounds: playerOne.totalRounds + 1 }))
-    // setPlayerTwo(s => ({ ...s, totalRounds: playerTwo.totalRounds + 1 }))
-    // if (isFourPlayer) {
-    //   setPlayerThree(s => ({ ...s, totalRounds: playerThree.totalRounds + 1 }))
-    //   setPlayerFour(s => ({ ...s, totalRounds: playerFour.totalRounds + 1 }))
-    // }
   }
 
   function ClearRound() {
@@ -252,8 +237,6 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
   )
 }
 /*TODO:  
-Bug: 4 player, 4 baggers get counted every round on player two
-Bug: Both side are getting the round count
 Bug: total rounds exported are short one round
 Bug: Four baggers exported are short one if it was done on a winning round
 Bug: PPR are one round behind as the game ends so the eport value is incorrect
