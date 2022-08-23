@@ -238,9 +238,9 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
   )
 }
 /*TODO:  
-Feature: Style buttons on game page
-Feature: Reset game
-Feature: avg. rounds per game
-Feature: Games Played/won tracker
-Feature: Single Player
+Feature: Style buttons on game page (No idea what to do with the buttons)
+Feature: Reset game (this already occurs unless we you want to clear the stats from history)
+Feature: avg. rounds per game (This is more dependent on who else is playing then a personal stat)
+Feature: Games Played/won tracker (should only apply during the current set, not maintained in history file)
+Feature: Single Player (is this needed? a single player game is just one player playing both sides so why not just make a practice file?)
 */
