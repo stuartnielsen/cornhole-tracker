@@ -109,7 +109,7 @@ export default function PlayerCard({
                 disabled={activePlayer}
                 onMouseOver={() => setBagDescription('A bag that lands in front of the hole and slides in')}
                 onMouseLeave={() => setBagDescription('')}>
-                Slide
+                Slide <sup style={{ fontSize: 9, lineHeight: 2 }}> +3</sup>
               </Button>
               <Button
                 onClick={() => AddBagTeamOne('Airmail')}
@@ -119,7 +119,7 @@ export default function PlayerCard({
                 disabled={activePlayer}
                 onMouseOver={() => setBagDescription('A bag that goes directly into the whole and does not slide or bounce')}
                 onMouseLeave={() => setBagDescription('')}>
-                Airmail
+                Airmail<sup style={{ fontSize: 9, lineHeight: 2 }}> +3</sup>
               </Button>
               <Button
                 onClick={() => AddBagTeamOne('Roll')}
@@ -129,7 +129,7 @@ export default function PlayerCard({
                 disabled={activePlayer}
                 onMouseOver={() => setBagDescription('A bag that goes over the top of a blocker and into the hole')}
                 onMouseLeave={() => setBagDescription('')}>
-                Roll
+                Roll<sup style={{ fontSize: 9, lineHeight: 2 }}> +3</sup>
               </Button>
             </div>
             <div>
@@ -140,7 +140,7 @@ export default function PlayerCard({
                 disabled={activePlayer}
                 onMouseOver={() => setBagDescription('A bag that lands in front blocking the hole from a slide shot')}
                 onMouseLeave={() => setBagDescription('')}>
-                Block
+                Block<sup style={{ fontSize: 9, lineHeight: 2 }}> +1</sup>
               </Button>
               <Button
                 onClick={() => AddBagTeamOne('Push')}
@@ -149,7 +149,7 @@ export default function PlayerCard({
                 disabled={activePlayer}
                 onMouseOver={() => setBagDescription('A bag that slides pushes a blocker in the hole')}
                 onMouseLeave={() => setBagDescription('')}>
-                Push
+                Push<sup style={{ fontSize: 9, lineHeight: 2 }}> +?</sup>
               </Button>
               <Button
                 onClick={() => AddBagTeamOne('Woody')}
@@ -158,7 +158,7 @@ export default function PlayerCard({
                 disabled={activePlayer}
                 onMouseOver={() => setBagDescription('A bag that lands on the board but does not block it')}
                 onMouseLeave={() => setBagDescription('')}>
-                Woody
+                Woody<sup style={{ fontSize: 9, lineHeight: 2 }}> +1</sup>
               </Button>
             </div>
             <div>
@@ -170,7 +170,7 @@ export default function PlayerCard({
                 disabled={activePlayer}
                 onMouseOver={() => setBagDescription('A bag that is on, hit, or touching the ground')}
                 onMouseLeave={() => setBagDescription('')}>
-                Foul
+                Foul<sup style={{ fontSize: 9, lineHeight: 2 }}> +0</sup>
               </Button>
               <Button
                 onClick={() => AddBagTeamOne('Bully')}
@@ -180,7 +180,7 @@ export default function PlayerCard({
                 disabled={activePlayer}
                 onMouseOver={() => setBagDescription('A bag that pushes your another bag out of the danger zone')}
                 onMouseLeave={() => setBagDescription('')}>
-                Bully
+                Bully<sup style={{ fontSize: 9, lineHeight: 2 }}> +?</sup>
               </Button>
             </div>
             <Divider style={{ margin: '10px -10px -10px -10px' }} />
