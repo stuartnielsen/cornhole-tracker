@@ -174,7 +174,7 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
             <Button variant='outlined' size='small' color='error' style={{ marginTop: '10px' }} onClick={() => ResetGame()}>
               New Game
             </Button>
-            {isGameOver || roundNumber < 1 ? (
+            {roundNumber < 1 ? (
               <>
                 <div style={{ marginTop: '10px' }}>
                   <CSVLink
@@ -238,9 +238,6 @@ export default function GamePage({ isFourPlayer, players, history, setStartGame 
   )
 }
 /*TODO:  
-Bug: total rounds exported are short one round
-Bug: Four baggers exported are short one if it was done on a winning round
-Bug: PPR are one round behind as the game ends so the eport value is incorrect
 Feature: Style buttons on game page
 Feature: Reset game
 Feature: avg. rounds per game
