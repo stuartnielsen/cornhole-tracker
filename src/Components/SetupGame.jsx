@@ -1,6 +1,18 @@
-import { Button, Card, FormControl, InputLabel, MenuItem, Select, Switch, TextField } from '@mui/material'
+import {
+  Button,
+  Card,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  TextField
+} from '@mui/material'
 import { useEffect, useMemo, useState } from 'react'
 import GamePage from './GamePage'
+import PracticePage from './PracticePage'
 
 const DEFAULT_TEAM = {
   teamName: '',
@@ -16,7 +28,21 @@ const DEFAULT_TEAM = {
   push: 0,
   woody: 0,
   bully: 0,
-  foul: 0
+  foul: 0,
+  PracticeSlideSuccess: 0,
+  PracticeAirmailSuccess: 0,
+  PracticeRollSuccess: 0,
+  PracticeBlockSuccess: 0,
+  PracticePushSuccess: 0,
+  PracticeWoodySuccess: 0,
+  PracticeBullySuccess: 0,
+  PracticeSlideAttempt: 0,
+  PracticeAirmailAttempt: 0,
+  PracticeRollAttempt: 0,
+  PracticeBlockAttempt: 0,
+  PracticePushAttempt: 0,
+  PracticeWoodyAttempt: 0,
+  PracticeBullyAttempt: 0
 }
 
 export default function SetupGame() {
@@ -24,6 +50,7 @@ export default function SetupGame() {
   const [playersStats, setPlayersStats] = useState([])
   const [startGame, setStartGame] = useState(false)
   const [isFourPlayer, setIsFourPlayer] = useState(false)
+  const [isPractice, setIsPractice] = useState(false)
   const [playerOne, setPlayerOne] = useState()
   const [playerTwo, setPlayerTwo] = useState()
   const [playerThree, setPlayerThree] = useState()
@@ -69,6 +96,10 @@ export default function SetupGame() {
     setPlayersStats(curr => [...curr, newPlayer])
     setNewPlayer(s => ({ ...s, teamName: '' }))
   }
+  function playerNumber(practice, fourPlayer) {
+    setIsFourPlayer(fourPlayer)
+    setIsPractice(practice)
+  }
 
   return (
     <div
@@ -79,14 +110,20 @@ export default function SetupGame() {
         minWidth: '350px'
       }}>
       {startGame ? (
-        <>
-          <GamePage
-            isFourPlayer={isFourPlayer}
-            players={isFourPlayer ? [playerOne, playerThree, playerTwo, playerFour] : [playerOne, playerThree]}
-            history={playersStats}
-            setStartGame={setStartGame}
-          />
-        </>
+        isPractice ? (
+          <>
+            <PracticePage setStartGame={setStartGame} />
+          </>
+        ) : (
+          <>
+            <GamePage
+              isFourPlayer={isFourPlayer}
+              players={isFourPlayer ? [playerOne, playerThree, playerTwo, playerFour] : [playerOne, playerThree]}
+              history={playersStats}
+              setStartGame={setStartGame}
+            />
+          </>
+        )
       ) : (
         <Card style={{ textAlign: 'center', width: '400px' }}>
           <h1>Create New Game</h1>
@@ -110,9 +147,33 @@ export default function SetupGame() {
             </Button>
           </div>
 
-          <div style={{ marginTop: '20px' }}>
-            <label>Four Players</label>
-            <Switch onChange={() => setIsFourPlayer(!isFourPlayer)} checked={isFourPlayer} />
+          <div style={{ marginTop: '15px' }}>
+            <FormControl>
+              {/* <FormLabel>Player #</FormLabel> */}
+              <RadioGroup row name='radio-buttons-group'>
+                <FormControlLabel
+                  control={<Radio />}
+                  value='Practice'
+                  label='Practice'
+                  checked={isPractice}
+                  onChange={() => playerNumber(true, false)}
+                />
+                <FormControlLabel
+                  control={<Radio />}
+                  value='2 Player'
+                  label='2 Player'
+                  checked={!isFourPlayer && !isPractice}
+                  onChange={() => playerNumber(false, false)}
+                />
+                <FormControlLabel
+                  control={<Radio />}
+                  value='4 Player'
+                  label='4 Player'
+                  checked={isFourPlayer}
+                  onChange={() => playerNumber(false, true)}
+                />
+              </RadioGroup>
+            </FormControl>
           </div>
           <div>
             {/* Team one */}
@@ -151,21 +212,27 @@ export default function SetupGame() {
             )}
 
             {/* Team Two */}
-            <h4>Team Two</h4>
-            <FormControl variant='outlined' size='small' style={{ width: '300px' }}>
-              <InputLabel id='playerThreeLabel'>{isFourPlayer ? 'Side One' : 'Player Two'}</InputLabel>
-              <Select
-                labelId='playerThreeLabel'
-                value={playerThree ? playerThree : ''}
-                label={isFourPlayer ? 'Side One' : 'Player Two'}
-                onChange={e => setPlayerThree(e.target.value)}>
-                {playersStats.map(x => (
-                  <MenuItem value={x.teamName} key={x.teamName}>
-                    {x.teamName}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            {!isPractice ? (
+              <>
+                <h4>Team Two</h4>
+                <FormControl variant='outlined' size='small' style={{ width: '300px' }}>
+                  <InputLabel id='playerThreeLabel'>{isFourPlayer ? 'Side One' : 'Player Two'}</InputLabel>
+                  <Select
+                    labelId='playerThreeLabel'
+                    value={playerThree ? playerThree : ''}
+                    label={isFourPlayer ? 'Side One' : 'Player Two'}
+                    onChange={e => setPlayerThree(e.target.value)}>
+                    {playersStats.map(x => (
+                      <MenuItem value={x.teamName} key={x.teamName}>
+                        {x.teamName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </>
+            ) : (
+              <></>
+            )}
             {isFourPlayer ? (
               <FormControl variant='outlined' size='small' style={{ width: '300px', marginTop: '10px' }}>
                 <InputLabel id='playerFourLabel'>Side Two</InputLabel>
