@@ -1,4 +1,5 @@
 import { Button, Card, Checkbox, FormControlLabel, FormGroup, Grid } from '@mui/material'
+import { useEffect } from 'react'
 // import { useEffect } from 'react'
 import { useState } from 'react'
 
@@ -15,6 +16,7 @@ const DEFAULT_SHOT_TYPES = {
 export default function PracticePage({ setStartGame }) {
   //   const [slideShot, setSlideShot] = useState(false)
   const [shotTypes, setShotTypes] = useState(DEFAULT_SHOT_TYPES)
+  const [activeShots, setActiveShots] = useState([])
 
   function clearChecked() {
     setShotTypes(s => ({
@@ -28,9 +30,10 @@ export default function PracticePage({ setStartGame }) {
       bully: false
     }))
   }
+  useEffect(() => {}, [])
 
   function nextShot() {
-    let shot = shotTypes[Math.floor(Math.random() * 7)]
+    let shot = activeShots[Math.floor(Math.random() * activeShots.length)]
     console.log(shot)
   }
 
