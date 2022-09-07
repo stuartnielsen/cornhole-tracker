@@ -112,7 +112,7 @@ export default function SetupGame() {
       {startGame ? (
         isPractice ? (
           <>
-            <PracticePage setStartGame={setStartGame} />
+            <PracticePage setStartGame={setStartGame} history={playersStats} player={playerOne} />
           </>
         ) : (
           <>

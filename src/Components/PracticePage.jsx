@@ -1,7 +1,5 @@
 import { Button, Card, Checkbox, FormControlLabel, FormGroup, Grid } from '@mui/material'
-import { useEffect } from 'react'
-// import { useEffect } from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const DEFAULT_SHOT_TYPES = {
   slide: false,
@@ -13,10 +11,11 @@ const DEFAULT_SHOT_TYPES = {
   bully: false
 }
 
-export default function PracticePage({ setStartGame }) {
-  //   const [slideShot, setSlideShot] = useState(false)
+export default function PracticePage({ setStartGame, history, player }) {
   const [shotTypes, setShotTypes] = useState(DEFAULT_SHOT_TYPES)
   const [activeShots, setActiveShots] = useState([])
+  const [nextPracticeShot, setNextPracticeShot] = useState('')
+  const [playerOne, setPlayerOne] = useState(history[history.findIndex(item => item.teamName === player)])
 
   function clearChecked() {
     setShotTypes(s => ({
@@ -29,13 +28,35 @@ export default function PracticePage({ setStartGame }) {
       woody: false,
       bully: false
     }))
+    setNextPracticeShot('')
   }
-  useEffect(() => {}, [])
+
+  useEffect(() => {
+    let activeShotsArray = []
+    if (shotTypes.slide) activeShotsArray.push('Slide')
+    if (shotTypes.airmail) activeShotsArray.push('Airmail')
+    if (shotTypes.roll) activeShotsArray.push('Roll')
+    if (shotTypes.block) activeShotsArray.push('Block')
+    if (shotTypes.push) activeShotsArray.push('Push')
+    if (shotTypes.woody) activeShotsArray.push('Woody')
+    if (shotTypes.bully) activeShotsArray.push('Bully')
+    setActiveShots(activeShotsArray)
+  }, [shotTypes])
+
+  //   useEffect(()=> {},[playerOne])
+
+  function handleShot(shot, success = false) {
+    setPlayerOne(s => ({ ...s, [`Practice${shot}Attempt`]: playerOne[`Practice${shot}Attempt`] + 1 }))
+    if (success) setPlayerOne(s => ({ ...s, [`Practice${shot}Success`]: playerOne[`Practice${shot}Success`] + 1 }))
+    console.log(playerOne[shot])
+    nextShot()
+  }
 
   function nextShot() {
     let shot = activeShots[Math.floor(Math.random() * activeShots.length)]
-    console.log(shot)
+    setNextPracticeShot(shot)
   }
+  console.log(playerOne)
 
   return (
     <>
@@ -43,7 +64,7 @@ export default function PracticePage({ setStartGame }) {
         <Grid>
           <Card
             style={{ margin: '10px', padding: '10px', alignItems: 'end', textAlign: 'center', width: '280px', height: '450px' }}>
-            <h1>Player Name</h1>
+            <h1>{player}</h1>
           </Card>
         </Grid>
         <Grid>
@@ -95,14 +116,31 @@ export default function PracticePage({ setStartGame }) {
         </Grid>
         <Grid>
           <Card
+            hidden={activeShots.length === 0}
             style={{ margin: '10px', padding: '10px', alignItems: 'end', textAlign: 'center', width: '280px', height: '450px' }}>
-            <h1>This Shot</h1>
-            <Button color='success' variant='outlined' onClick={() => nextShot()}>
-              Success
-            </Button>
-            <Button color='error' variant='outlined' onClick={() => nextShot()}>
-              Error
-            </Button>
+            <h1>{nextPracticeShot}</h1>
+            {nextPracticeShot === '' ? (
+              <Button variant='outlined' onClick={() => nextShot()}>
+                Start
+              </Button>
+            ) : (
+              <>
+                <Button
+                  disabled={nextPracticeShot === ''}
+                  color='success'
+                  variant='outlined'
+                  onClick={() => handleShot(nextPracticeShot, true)}>
+                  Success
+                </Button>
+                <Button
+                  disabled={nextPracticeShot === ''}
+                  color='error'
+                  variant='outlined'
+                  onClick={() => handleShot(nextPracticeShot)}>
+                  Error
+                </Button>
+              </>
+            )}
           </Card>
         </Grid>
       </Grid>
